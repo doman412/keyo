@@ -37,7 +37,7 @@
 		3884A906186E18AE004400B8 /* HubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884A905186E18AE004400B8 /* HubView.m */; };
 		3884A9091870C2B8004400B8 /* SongListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884A9081870C2B8004400B8 /* SongListView.m */; };
 		3884A91018721C3D004400B8 /* QueueCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884A90F18721C3D004400B8 /* QueueCell.m */; };
-		C73C9F06187CABB200946D81 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C73C9F05187CABB200946D81 /* Parse.framework */; };
+		3884A92B18A0D787004400B8 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3884A92A18A0D787004400B8 /* Parse.framework */; };
 		C7B330BE187FEA70008BA6A8 /* HubSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B330BD187FEA70008BA6A8 /* HubSettingsVC.m */; };
 		C7B330C1188098EE008BA6A8 /* UserSongsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B330C0188098EE008BA6A8 /* UserSongsVC.m */; };
 		C7B3311A188917AE008BA6A8 /* SongCellObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B33119188917AE008BA6A8 /* SongCellObject.m */; };
@@ -101,7 +101,7 @@
 		3884A9081870C2B8004400B8 /* SongListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SongListView.m; path = Views/Hub/SongListView.m; sourceTree = "<group>"; };
 		3884A90E18721C3D004400B8 /* QueueCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueueCell.h; path = Views/Hub/Cells/QueueCell.h; sourceTree = "<group>"; };
 		3884A90F18721C3D004400B8 /* QueueCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueueCell.m; path = Views/Hub/Cells/QueueCell.m; sourceTree = "<group>"; };
-		C73C9F05187CABB200946D81 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../../Documents/Dev/Frameworks/Parse/Parse.framework; sourceTree = "<group>"; };
+		3884A92A18A0D787004400B8 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../frameworks/Parse/iOS/Parse.framework; sourceTree = "<group>"; };
 		C7B330BC187FEA70008BA6A8 /* HubSettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HubSettingsVC.h; path = Views/Hub/Creation/HubSettingsVC.h; sourceTree = "<group>"; };
 		C7B330BD187FEA70008BA6A8 /* HubSettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HubSettingsVC.m; path = Views/Hub/Creation/HubSettingsVC.m; sourceTree = "<group>"; };
 		C7B330BF188098EE008BA6A8 /* UserSongsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSongsVC.h; path = Views/Hub/Creation/UserSongsVC.h; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C73C9F06187CABB200946D81 /* Parse.framework in Frameworks */,
+				3884A92B18A0D787004400B8 /* Parse.framework in Frameworks */,
 				382A87991868033A00B4ADFA /* SystemConfiguration.framework in Frameworks */,
 				382A87971868032800B4ADFA /* StoreKit.framework in Frameworks */,
 				382A87951868031D00B4ADFA /* Security.framework in Frameworks */,
@@ -179,7 +179,7 @@
 		382A874C1867A33C00B4ADFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C73C9F05187CABB200946D81 /* Parse.framework */,
+				3884A92A18A0D787004400B8 /* Parse.framework */,
 				382A87981868033A00B4ADFA /* SystemConfiguration.framework */,
 				382A87961868032800B4ADFA /* StoreKit.framework */,
 				382A87941868031D00B4ADFA /* Security.framework */,

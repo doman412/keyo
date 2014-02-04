@@ -31,6 +31,8 @@
 //    NSLog(@"saveButton: %@",self.navigationController);
     self.parentViewController.navigationItem.rightBarButtonItem = self.saveButton;
 //    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:self.saveButton, nil];
+    
+    self.hub = [PFObject objectWithClassName:@"Hub"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,6 +78,8 @@
 
 - (IBAction)onPublicSwitchChanged:(id)sender
 {
+    self.passcodeField.enabled = !self.publicSwitch.isOn;
+    
     [self.tableView reloadData];
 }
 
@@ -83,7 +87,6 @@
 {
     NSLog(@"save");
     
-    self.hub = [PFObject objectWithClassName:@"Hub"];
     
     self.hub[@"owner"] = [PFUser currentUser];
     self.hub[@"title"] = self.hubNameField.text;
@@ -140,10 +143,10 @@
     NSLog(@"prepare for segue: %@",segue);
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"did select row at index path: %@",indexPath);
-}
+//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    NSLog(@"did select row at index path: %@",indexPath);
+//}
 
 -(void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)mediaItemCollection
 {
@@ -159,7 +162,7 @@
         o[@"title"] = [i valueForProperty:MPMediaItemPropertyTitle];
         o[@"artist"] = [i valueForProperty:MPMediaItemPropertyArtist];
         o[@"pid"] = [i valueForProperty:MPMediaItemPropertyPersistentID];
-        o[@"url"] = [i valueForProperty:MPMediaItemPropertyAssetURL];
+        o[@"url"] = [[i valueForProperty:MPMediaItemPropertyAssetURL] absoluteString];
         
         [self.selectedSongs addObject:o];
     }
@@ -177,7 +180,7 @@
 //    NSLog(@"text field: %@",textField.superview.superview.superview);
     self.tableView.contentInset =  UIEdgeInsetsMake(0, 0, 360, 0);
 //    [self.tableView scrollToNearestSelectedRowAtScrollPosition: UITableViewScrollPositionBottom animated:YES];
-    [self.tableView scrollToRowAtIndexPath:[self.tableView indexPathForCell:(id)textField.superview.superview.superview] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self.tableView scrollToRowAtIndexPath:[self.tableView indexPathForCell:(id)textField.superview.superview.superview] atScrollPosition:UITableViewScrollPositionNone animated:YES];
 //    [self.tableView scrollToRowAtIndexPath:self.index atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
