@@ -15,13 +15,38 @@
 		382A875E1867A33C00B4ADFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 382A875D1867A33C00B4ADFA /* AppDelegate.m */; };
 		382A87611867A33C00B4ADFA /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 382A875F1867A33C00B4ADFA /* Main_iPhone.storyboard */; };
 		382A87641867A33C00B4ADFA /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 382A87621867A33C00B4ADFA /* Main_iPad.storyboard */; };
-		382A87671867A33C00B4ADFA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382A87661867A33C00B4ADFA /* ViewController.m */; };
 		382A87691867A33C00B4ADFA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 382A87681867A33C00B4ADFA /* Images.xcassets */; };
 		382A87701867A33C00B4ADFA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A876F1867A33C00B4ADFA /* XCTest.framework */; };
 		382A87711867A33C00B4ADFA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A874D1867A33C00B4ADFA /* Foundation.framework */; };
 		382A87721867A33C00B4ADFA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A87511867A33C00B4ADFA /* UIKit.framework */; };
 		382A877A1867A33C00B4ADFA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 382A87781867A33C00B4ADFA /* InfoPlist.strings */; };
 		382A877C1867A33C00B4ADFA /* keyoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 382A877B1867A33C00B4ADFA /* keyoTests.m */; };
+		382A8789186802C000B4ADFA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A8788186802C000B4ADFA /* AudioToolbox.framework */; };
+		382A878B186802E400B4ADFA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A878A186802E400B4ADFA /* CFNetwork.framework */; };
+		382A878D186802ED00B4ADFA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A878C186802ED00B4ADFA /* CoreLocation.framework */; };
+		382A878F186802FB00B4ADFA /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A878E186802FB00B4ADFA /* libz.1.1.3.dylib */; };
+		382A87911868030600B4ADFA /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A87901868030600B4ADFA /* MobileCoreServices.framework */; };
+		382A87931868031200B4ADFA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A87921868031200B4ADFA /* QuartzCore.framework */; };
+		382A87951868031D00B4ADFA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A87941868031D00B4ADFA /* Security.framework */; };
+		382A87971868032800B4ADFA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A87961868032800B4ADFA /* StoreKit.framework */; };
+		382A87991868033A00B4ADFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382A87981868033A00B4ADFA /* SystemConfiguration.framework */; };
+		382A879F186BDA5600B4ADFA /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 382A879E186BDA5600B4ADFA /* LoginVC.m */; };
+		382A87A2186BDB7D00B4ADFA /* SignUpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 382A87A1186BDB7D00B4ADFA /* SignUpVC.m */; };
+		382A87A6186C1FB700B4ADFA /* HomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 382A87A5186C1FB700B4ADFA /* HomeVC.m */; };
+		382A87A9186CB20500B4ADFA /* SiteObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 382A87A8186CB20500B4ADFA /* SiteObject.m */; };
+		3884A906186E18AE004400B8 /* HubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884A905186E18AE004400B8 /* HubView.m */; };
+		3884A9091870C2B8004400B8 /* SongListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884A9081870C2B8004400B8 /* SongListView.m */; };
+		3884A91018721C3D004400B8 /* QueueCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884A90F18721C3D004400B8 /* QueueCell.m */; };
+		C73C9F06187CABB200946D81 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C73C9F05187CABB200946D81 /* Parse.framework */; };
+		C7B330BE187FEA70008BA6A8 /* HubSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B330BD187FEA70008BA6A8 /* HubSettingsVC.m */; };
+		C7B330C1188098EE008BA6A8 /* UserSongsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B330C0188098EE008BA6A8 /* UserSongsVC.m */; };
+		C7B3311A188917AE008BA6A8 /* SongCellObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B33119188917AE008BA6A8 /* SongCellObject.m */; };
+		C7B3311D188920F1008BA6A8 /* SongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B3311C188920F1008BA6A8 /* SongCell.m */; };
+		C7B33125188A2EBD008BA6A8 /* LBYouTubeExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B33122188A2EBD008BA6A8 /* LBYouTubeExtractor.m */; };
+		C7B33126188A2EBD008BA6A8 /* LBYouTubePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B33124188A2EBD008BA6A8 /* LBYouTubePlayerViewController.m */; };
+		C7B3312A188A2FE9008BA6A8 /* testPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B33129188A2FE9008BA6A8 /* testPlayerVC.m */; };
+		C7B3312D188A3004008BA6A8 /* YTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B3312C188A3004008BA6A8 /* YTVC.m */; };
+		C7F170631895CF0400292699 /* PlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F170621895CF0400292699 /* PlayerVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,14 +72,55 @@
 		382A875D1867A33C00B4ADFA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		382A87601867A33C00B4ADFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		382A87631867A33C00B4ADFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		382A87651867A33C00B4ADFA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		382A87661867A33C00B4ADFA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		382A87681867A33C00B4ADFA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		382A876E1867A33C00B4ADFA /* keyoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = keyoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		382A876F1867A33C00B4ADFA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		382A87771867A33C00B4ADFA /* keyoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "keyoTests-Info.plist"; sourceTree = "<group>"; };
 		382A87791867A33C00B4ADFA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		382A877B1867A33C00B4ADFA /* keyoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = keyoTests.m; sourceTree = "<group>"; };
+		382A8788186802C000B4ADFA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		382A878A186802E400B4ADFA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		382A878C186802ED00B4ADFA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		382A878E186802FB00B4ADFA /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
+		382A87901868030600B4ADFA /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		382A87921868031200B4ADFA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		382A87941868031D00B4ADFA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		382A87961868032800B4ADFA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		382A87981868033A00B4ADFA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		382A879D186BDA5600B4ADFA /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginVC.h; path = Views/Login/LoginVC.h; sourceTree = "<group>"; };
+		382A879E186BDA5600B4ADFA /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginVC.m; path = Views/Login/LoginVC.m; sourceTree = "<group>"; };
+		382A87A0186BDB7D00B4ADFA /* SignUpVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUpVC.h; path = Views/Login/SignUpVC.h; sourceTree = "<group>"; };
+		382A87A1186BDB7D00B4ADFA /* SignUpVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUpVC.m; path = Views/Login/SignUpVC.m; sourceTree = "<group>"; };
+		382A87A4186C1FB700B4ADFA /* HomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeVC.h; path = Views/Home/HomeVC.h; sourceTree = "<group>"; };
+		382A87A5186C1FB700B4ADFA /* HomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeVC.m; path = Views/Home/HomeVC.m; sourceTree = "<group>"; };
+		382A87A7186CB20500B4ADFA /* SiteObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SiteObject.h; path = Views/Home/SiteObject.h; sourceTree = "<group>"; };
+		382A87A8186CB20500B4ADFA /* SiteObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SiteObject.m; path = Views/Home/SiteObject.m; sourceTree = "<group>"; };
+		3884A904186E18AE004400B8 /* HubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HubView.h; path = Views/Hub/HubView.h; sourceTree = "<group>"; };
+		3884A905186E18AE004400B8 /* HubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HubView.m; path = Views/Hub/HubView.m; sourceTree = "<group>"; };
+		3884A9071870C2B8004400B8 /* SongListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SongListView.h; path = Views/Hub/SongListView.h; sourceTree = "<group>"; };
+		3884A9081870C2B8004400B8 /* SongListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SongListView.m; path = Views/Hub/SongListView.m; sourceTree = "<group>"; };
+		3884A90E18721C3D004400B8 /* QueueCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueueCell.h; path = Views/Hub/Cells/QueueCell.h; sourceTree = "<group>"; };
+		3884A90F18721C3D004400B8 /* QueueCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueueCell.m; path = Views/Hub/Cells/QueueCell.m; sourceTree = "<group>"; };
+		C73C9F05187CABB200946D81 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../../Documents/Dev/Frameworks/Parse/Parse.framework; sourceTree = "<group>"; };
+		C7B330BC187FEA70008BA6A8 /* HubSettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HubSettingsVC.h; path = Views/Hub/Creation/HubSettingsVC.h; sourceTree = "<group>"; };
+		C7B330BD187FEA70008BA6A8 /* HubSettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HubSettingsVC.m; path = Views/Hub/Creation/HubSettingsVC.m; sourceTree = "<group>"; };
+		C7B330BF188098EE008BA6A8 /* UserSongsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSongsVC.h; path = Views/Hub/Creation/UserSongsVC.h; sourceTree = "<group>"; };
+		C7B330C0188098EE008BA6A8 /* UserSongsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserSongsVC.m; path = Views/Hub/Creation/UserSongsVC.m; sourceTree = "<group>"; };
+		C7B33118188917AE008BA6A8 /* SongCellObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SongCellObject.h; path = Views/Hub/Creation/SongCellObject.h; sourceTree = "<group>"; };
+		C7B33119188917AE008BA6A8 /* SongCellObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SongCellObject.m; path = Views/Hub/Creation/SongCellObject.m; sourceTree = "<group>"; };
+		C7B3311B188920F1008BA6A8 /* SongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SongCell.h; path = Views/Hub/Creation/SongCell.h; sourceTree = "<group>"; };
+		C7B3311C188920F1008BA6A8 /* SongCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SongCell.m; path = Views/Hub/Creation/SongCell.m; sourceTree = "<group>"; };
+		C7B33120188A2EBD008BA6A8 /* LBYouTube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBYouTube.h; sourceTree = "<group>"; };
+		C7B33121188A2EBD008BA6A8 /* LBYouTubeExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBYouTubeExtractor.h; sourceTree = "<group>"; };
+		C7B33122188A2EBD008BA6A8 /* LBYouTubeExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBYouTubeExtractor.m; sourceTree = "<group>"; };
+		C7B33123188A2EBD008BA6A8 /* LBYouTubePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBYouTubePlayerViewController.h; sourceTree = "<group>"; };
+		C7B33124188A2EBD008BA6A8 /* LBYouTubePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBYouTubePlayerViewController.m; sourceTree = "<group>"; };
+		C7B33128188A2FE9008BA6A8 /* testPlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testPlayerVC.h; path = Views/Player/testPlayerVC.h; sourceTree = "<group>"; };
+		C7B33129188A2FE9008BA6A8 /* testPlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = testPlayerVC.m; path = Views/Player/testPlayerVC.m; sourceTree = "<group>"; };
+		C7B3312B188A3004008BA6A8 /* YTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTVC.h; path = Views/Player/YTVC.h; sourceTree = "<group>"; };
+		C7B3312C188A3004008BA6A8 /* YTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTVC.m; path = Views/Player/YTVC.m; sourceTree = "<group>"; };
+		C7F170611895CF0400292699 /* PlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerVC.h; path = Views/Player/PlayerVC.h; sourceTree = "<group>"; };
+		C7F170621895CF0400292699 /* PlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerVC.m; path = Views/Player/PlayerVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +128,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C73C9F06187CABB200946D81 /* Parse.framework in Frameworks */,
+				382A87991868033A00B4ADFA /* SystemConfiguration.framework in Frameworks */,
+				382A87971868032800B4ADFA /* StoreKit.framework in Frameworks */,
+				382A87951868031D00B4ADFA /* Security.framework in Frameworks */,
+				382A87931868031200B4ADFA /* QuartzCore.framework in Frameworks */,
+				382A87911868030600B4ADFA /* MobileCoreServices.framework in Frameworks */,
+				382A878F186802FB00B4ADFA /* libz.1.1.3.dylib in Frameworks */,
+				382A878D186802ED00B4ADFA /* CoreLocation.framework in Frameworks */,
+				382A878B186802E400B4ADFA /* CFNetwork.framework in Frameworks */,
+				382A8789186802C000B4ADFA /* AudioToolbox.framework in Frameworks */,
 				382A87501867A33C00B4ADFA /* CoreGraphics.framework in Frameworks */,
 				382A87521867A33C00B4ADFA /* UIKit.framework in Frameworks */,
 				382A874E1867A33C00B4ADFA /* Foundation.framework in Frameworks */,
@@ -103,6 +179,16 @@
 		382A874C1867A33C00B4ADFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C73C9F05187CABB200946D81 /* Parse.framework */,
+				382A87981868033A00B4ADFA /* SystemConfiguration.framework */,
+				382A87961868032800B4ADFA /* StoreKit.framework */,
+				382A87941868031D00B4ADFA /* Security.framework */,
+				382A87921868031200B4ADFA /* QuartzCore.framework */,
+				382A87901868030600B4ADFA /* MobileCoreServices.framework */,
+				382A878E186802FB00B4ADFA /* libz.1.1.3.dylib */,
+				382A878C186802ED00B4ADFA /* CoreLocation.framework */,
+				382A878A186802E400B4ADFA /* CFNetwork.framework */,
+				382A8788186802C000B4ADFA /* AudioToolbox.framework */,
 				382A874D1867A33C00B4ADFA /* Foundation.framework */,
 				382A874F1867A33C00B4ADFA /* CoreGraphics.framework */,
 				382A87511867A33C00B4ADFA /* UIKit.framework */,
@@ -114,12 +200,11 @@
 		382A87531867A33C00B4ADFA /* keyo */ = {
 			isa = PBXGroup;
 			children = (
-				382A875C1867A33C00B4ADFA /* AppDelegate.h */,
-				382A875D1867A33C00B4ADFA /* AppDelegate.m */,
-				382A875F1867A33C00B4ADFA /* Main_iPhone.storyboard */,
-				382A87621867A33C00B4ADFA /* Main_iPad.storyboard */,
-				382A87651867A33C00B4ADFA /* ViewController.h */,
-				382A87661867A33C00B4ADFA /* ViewController.m */,
+				3884A9111874CCCF004400B8 /* Icons */,
+				382A87871867A49700B4ADFA /* Storyboards */,
+				382A87861867A48300B4ADFA /* Views */,
+				382A87851867A45A00B4ADFA /* AppDelegate */,
+				C7B3311E188A2E61008BA6A8 /* Library */,
 				382A87681867A33C00B4ADFA /* Images.xcassets */,
 				382A87541867A33C00B4ADFA /* Supporting Files */,
 			);
@@ -153,6 +238,134 @@
 				382A87781867A33C00B4ADFA /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		382A87851867A45A00B4ADFA /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				382A875C1867A33C00B4ADFA /* AppDelegate.h */,
+				382A875D1867A33C00B4ADFA /* AppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		382A87861867A48300B4ADFA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C7B33127188A2FA9008BA6A8 /* Player */,
+				3884A903186D5308004400B8 /* Hub */,
+				382A87A3186C1F1000B4ADFA /* Home */,
+				382A879C186BD8BD00B4ADFA /* Login */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		382A87871867A49700B4ADFA /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				382A875F1867A33C00B4ADFA /* Main_iPhone.storyboard */,
+				382A87621867A33C00B4ADFA /* Main_iPad.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		382A879C186BD8BD00B4ADFA /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				382A879D186BDA5600B4ADFA /* LoginVC.h */,
+				382A879E186BDA5600B4ADFA /* LoginVC.m */,
+				382A87A0186BDB7D00B4ADFA /* SignUpVC.h */,
+				382A87A1186BDB7D00B4ADFA /* SignUpVC.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		382A87A3186C1F1000B4ADFA /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				382A87A4186C1FB700B4ADFA /* HomeVC.h */,
+				382A87A5186C1FB700B4ADFA /* HomeVC.m */,
+				382A87A7186CB20500B4ADFA /* SiteObject.h */,
+				382A87A8186CB20500B4ADFA /* SiteObject.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		3884A903186D5308004400B8 /* Hub */ = {
+			isa = PBXGroup;
+			children = (
+				C7B330BB187FEA3D008BA6A8 /* Creation */,
+				3884A90D18721BAF004400B8 /* Cells */,
+				3884A904186E18AE004400B8 /* HubView.h */,
+				3884A905186E18AE004400B8 /* HubView.m */,
+				3884A9071870C2B8004400B8 /* SongListView.h */,
+				3884A9081870C2B8004400B8 /* SongListView.m */,
+			);
+			name = Hub;
+			sourceTree = "<group>";
+		};
+		3884A90D18721BAF004400B8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3884A90E18721C3D004400B8 /* QueueCell.h */,
+				3884A90F18721C3D004400B8 /* QueueCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		3884A9111874CCCF004400B8 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
+		C7B330BB187FEA3D008BA6A8 /* Creation */ = {
+			isa = PBXGroup;
+			children = (
+				C7B330BC187FEA70008BA6A8 /* HubSettingsVC.h */,
+				C7B330BD187FEA70008BA6A8 /* HubSettingsVC.m */,
+				C7B330BF188098EE008BA6A8 /* UserSongsVC.h */,
+				C7B330C0188098EE008BA6A8 /* UserSongsVC.m */,
+				C7B33118188917AE008BA6A8 /* SongCellObject.h */,
+				C7B33119188917AE008BA6A8 /* SongCellObject.m */,
+				C7B3311B188920F1008BA6A8 /* SongCell.h */,
+				C7B3311C188920F1008BA6A8 /* SongCell.m */,
+			);
+			name = Creation;
+			sourceTree = "<group>";
+		};
+		C7B3311E188A2E61008BA6A8 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				C7B3311F188A2EBD008BA6A8 /* LBYouTubeView */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		C7B3311F188A2EBD008BA6A8 /* LBYouTubeView */ = {
+			isa = PBXGroup;
+			children = (
+				C7B33120188A2EBD008BA6A8 /* LBYouTube.h */,
+				C7B33121188A2EBD008BA6A8 /* LBYouTubeExtractor.h */,
+				C7B33122188A2EBD008BA6A8 /* LBYouTubeExtractor.m */,
+				C7B33123188A2EBD008BA6A8 /* LBYouTubePlayerViewController.h */,
+				C7B33124188A2EBD008BA6A8 /* LBYouTubePlayerViewController.m */,
+			);
+			path = LBYouTubeView;
+			sourceTree = "<group>";
+		};
+		C7B33127188A2FA9008BA6A8 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				C7B33128188A2FE9008BA6A8 /* testPlayerVC.h */,
+				C7B33129188A2FE9008BA6A8 /* testPlayerVC.m */,
+				C7B3312B188A3004008BA6A8 /* YTVC.h */,
+				C7B3312C188A3004008BA6A8 /* YTVC.m */,
+				C7F170611895CF0400292699 /* PlayerVC.h */,
+				C7F170621895CF0400292699 /* PlayerVC.m */,
+			);
+			name = Player;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,6 +415,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = MakoWare;
 				TargetAttributes = {
+					382A87491867A33C00B4ADFA = {
+						DevelopmentTeam = 335VRKRS9E;
+					};
 					382A876D1867A33C00B4ADFA = {
 						TestTargetID = 382A87491867A33C00B4ADFA;
 					};
@@ -253,9 +469,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				382A87671867A33C00B4ADFA /* ViewController.m in Sources */,
 				382A875E1867A33C00B4ADFA /* AppDelegate.m in Sources */,
+				C7B330C1188098EE008BA6A8 /* UserSongsVC.m in Sources */,
+				C7B330BE187FEA70008BA6A8 /* HubSettingsVC.m in Sources */,
+				3884A906186E18AE004400B8 /* HubView.m in Sources */,
+				382A87A9186CB20500B4ADFA /* SiteObject.m in Sources */,
+				C7F170631895CF0400292699 /* PlayerVC.m in Sources */,
+				C7B3311A188917AE008BA6A8 /* SongCellObject.m in Sources */,
+				C7B33125188A2EBD008BA6A8 /* LBYouTubeExtractor.m in Sources */,
+				382A87A2186BDB7D00B4ADFA /* SignUpVC.m in Sources */,
+				3884A91018721C3D004400B8 /* QueueCell.m in Sources */,
+				C7B3312D188A3004008BA6A8 /* YTVC.m in Sources */,
+				C7B33126188A2EBD008BA6A8 /* LBYouTubePlayerViewController.m in Sources */,
+				382A87A6186C1FB700B4ADFA /* HomeVC.m in Sources */,
+				382A879F186BDA5600B4ADFA /* LoginVC.m in Sources */,
+				C7B3311D188920F1008BA6A8 /* SongCell.m in Sources */,
 				382A875A1867A33C00B4ADFA /* main.m in Sources */,
+				3884A9091870C2B8004400B8 /* SongListView.m in Sources */,
+				C7B3312A188A2FE9008BA6A8 /* testPlayerVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,10 +623,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/doman412/Documents/Development/frameworks/Parse/iOS,
+					/Users/gazelle/Documents/Dev/Frameworks/Parse,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "keyo/keyo-Prefix.pch";
 				INFOPLIST_FILE = "keyo/keyo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -405,10 +644,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/doman412/Documents/Development/frameworks/Parse/iOS,
+					/Users/gazelle/Documents/Dev/Frameworks/Parse,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "keyo/keyo-Prefix.pch";
 				INFOPLIST_FILE = "keyo/keyo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -474,6 +721,7 @@
 				382A87811867A33C00B4ADFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		382A87821867A33C00B4ADFA /* Build configuration list for PBXNativeTarget "keyoTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +730,7 @@
 				382A87841867A33C00B4ADFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
