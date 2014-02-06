@@ -502,6 +502,12 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="FW6-C6-LLY"/>
+                        <barButtonItem systemItem="refresh" id="ezM-bM-hvl">
+                            <connections>
+                                <action selector="onRefresh:" destination="4ed-mQ-iBs" id="eZG-V7-LPq"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="ohs-KC-OdA"/>
                         <barButtonItem systemItem="trash" id="qTL-C9-lsi">
                             <connections>
                                 <action selector="onTrashHub:" destination="4ed-mQ-iBs" id="2aT-QN-BWS"/>

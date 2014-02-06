@@ -135,6 +135,7 @@
     
     PFQuery *q = [PFQuery queryWithClassName:@"QueuedSong"];
     [q whereKey:@"song" equalTo:[self.data objectAtIndex:indexPath.row]];
+    [q whereKey:@"active" equalTo:@YES];
     
     [q countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
         if(!error){
@@ -175,6 +176,7 @@
         queuedSong[@"hub"] = self.hub;
         queuedSong[@"addedBy"] = [PFUser currentUser];
         queuedSong[@"points"] = @1;
+        queuedSong[@"active"] = @YES;
         
         [queuedSong saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(succeeded){

@@ -15,9 +15,12 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *trashButton;
 @property (strong, nonatomic) UIAlertView *trashConfirm;
 @property (strong, nonatomic) PFObject *hub;
+@property (strong, nonatomic) MPMusicPlayerController *player;
+@property (strong, nonatomic) PFQuery *queue;
+@property (strong, nonatomic) NSTimer *barTimer;
 
 
-@property (strong, nonatomic) NSArray *data;
+@property (strong, nonatomic) NSMutableArray *data;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 // player control properties
@@ -28,15 +31,23 @@
 @property (strong, nonatomic) IBOutlet UIProgressView *progressBar;
 
 
-- (void)loadSongs;
+
+
+- (void)loadSongsAndNext:(BOOL)next;
 
 
 
 - (IBAction)onTrashHub:(id)sender;
 - (IBAction)onAddSongs:(id)sender;
+- (IBAction)onRefresh:(id)sender;
 
 - (IBAction)onSkip:(id)sender;
 - (IBAction)onPlayToggle:(id)sender;
 
+
+- (void)onPlaybackStateChanged:(NSNotification*)noti;
+- (void)onNowPlayingItemChanged:(NSNotification*)noti;
+
+- (void)onTimer:(NSTimer*)timer;
 
 @end

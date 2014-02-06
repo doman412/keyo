@@ -217,7 +217,7 @@
         HubView *hubv = tbc.viewControllers.firstObject;
         SongListView *slv = tbc.viewControllers.lastObject;
         PFObject *obj = ((SiteObject*)[self.data objectAtIndex:[self.tableView indexPathForSelectedRow].row]).hub;
-        NSLog(@"hub:: %@",obj);
+//        NSLog(@"hub:: %@",obj);
         hubv.hub = obj;
         slv.hub = obj;
     } else if([segue.identifier isEqualToString:@"gotoMyHub"]) {

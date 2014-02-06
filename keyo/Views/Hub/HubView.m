@@ -34,7 +34,7 @@
 //    [self.songQuery whereKey:@"hub" equalTo:self.hub];
 //    [self.songQuery whereKey:@"queue" equalTo:self.hub[@"queue"]];
     [self.songQuery whereKey:@"hub" equalTo:self.hub];
-//    [self.songQuery whereKey:@"active" equalTo:@YES];
+    [self.songQuery whereKey:@"active" equalTo:@YES];
     [self.songQuery orderByDescending:@"points"];
     [self.songQuery addAscendingOrder:@"createdAt"];
     [self.songQuery includeKey:@"song"];
