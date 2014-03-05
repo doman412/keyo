@@ -12,12 +12,18 @@
 #import "HubView.h"
 #import "SongListView.h"
 #import "PlayerVC.h"
+#import "YouTubeVC.h"
+#import "Theme.h"
+#import "UIImage+Color.h"
 
 @interface HomeVC ()
 
 @end
 
 @implementation HomeVC
+
+
+static AVPlayer *player;
 
 @synthesize refreshButton,data;
 
@@ -30,6 +36,46 @@
     return self;
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
++(AVPlayer *)myPlayer
+{
+    if(player){
+        return player;
+    } else {
+        player = [[AVPlayer alloc] init];
+        return player;
+    }
+}
+
++(AVPlayer *)myPlayerWithURL:(NSURL*)url
+{
+    if(player){
+        return player;
+    } else {
+        player = [[AVPlayer alloc] initWithURL:url];
+        return player;
+    }
+}
+
++(AVPlayer *)newPlayer
+{
+
+    player = [[AVPlayer alloc] init];
+    return player;
+    
+}
+
++(AVPlayer *)newPlayerWithURL:(NSURL*)url
+{
+    
+    player = [[AVPlayer alloc] initWithURL:url];
+    return player;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,7 +85,16 @@
     
     self.data = [[NSMutableArray alloc] init];
     
-    self.title = @"Local Hubs";
+    self.navigationController.navigationBar.barTintColor = [Theme orange];
+    self.navigationController.navigationBar.tintColor = [Theme fontWhite];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [Theme fontWhite]}];
+    
+    self.navigationController.toolbar.barTintColor = [Theme orange];
+    self.navigationController.toolbar.tintColor = [Theme fontWhite];
+    
+    self.view.backgroundColor = [Theme backgroundBlue];
+    
+    NSLog(@"home vc nav cont: %@",self.navigationController);
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -51,7 +106,7 @@
     [self.navigationController setToolbarHidden:NO];
     
     
-    
+
     
 }
 
@@ -214,12 +269,55 @@
     if([segue.identifier isEqualToString:@"gotoSite"]){
 //        NSLog(@"prepare for segue");
         UITabBarController *tbc = segue.destinationViewController;
+        UITabBar *tb = tbc.tabBar;
+        NSArray *items = tb.items;
+        /*
+        for (UITabBarItem *tbi in items) {
+//            UIImage *image = tbi.image;
+//            UIImage *sel = tbi.selectedImage;
+//            
+//            
+//            tbi.selectedImage = [sel imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//            tbi.selectedImage = [sel imageWithColor:[Theme backgroundBlue]];
+//            
+//            NSLog(@"selected color: %@", tbi.selectedImage);
+//            NSLog(@"image color: %@", tbi.image);
+            tbi.image = [tbi.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            
+            UIImage *im = [[UIImage imageNamed:@"spotify-logo-vertical-black-rgb_32"] tintedImageWithColor:[Theme backgroundBlue]];
+            UIImage *sel = [[UIImage imageNamed:@"spotify-logo-vertical-black-rgb_32"] tintedImageWithColor:[Theme fontWhite]];
+            
+            tbi = [[UITabBarItem alloc] initWithTitle:@"" image:im selectedImage:sel];
+            
+            tbi.image = [tbi.image imageWithColor:[Theme backgroundBlue]];
+            
+            
+//            [[UITabBar appearance] setTintColor:[UIColor redColor]];
+//            [[UITabBar appearance] setSelectedImageTintColor:[UIColor greenColor]];
+        }
+        */
+//        [tbc.tabBar setTintColor:[Theme fontWhite]]; // for unselected items that are gray
+//        [tbc.tabBar setSelectedImageTintColor:[Theme lightBlue]]; // for selected items that are green
+        
+//        [[UITabBar appearance] setTintColor:[Theme fontWhite]]; // for unselected items that are gray
+//        [[UITabBar appearance] setSelectedImageTintColor:[Theme lightBlue]]; // for selected items that are green
+        
+//        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [Theme lightBlue], NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+//        
+//        // set color of unselected text to green
+//        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[Theme fontWhite], NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+        
+        
         HubView *hubv = tbc.viewControllers.firstObject;
-        SongListView *slv = tbc.viewControllers.lastObject;
+        SongListView *slv = [tbc.viewControllers objectAtIndex:1];
+        YouTubeVC *ytvc = [tbc.viewControllers objectAtIndex:2];
+        
         PFObject *obj = ((SiteObject*)[self.data objectAtIndex:[self.tableView indexPathForSelectedRow].row]).hub;
 //        NSLog(@"hub:: %@",obj);
         hubv.hub = obj;
         slv.hub = obj;
+        ytvc.hub = obj;
+        
     } else if([segue.identifier isEqualToString:@"gotoMyHub"]) {
         PlayerVC *pvc = segue.destinationViewController;
         
@@ -265,7 +363,19 @@
     
     // Configure the cell...
     cell.textLabel.text = obj.title;
-//    NSLog(@"cell for row: %@",cell.textLabel.text);
+    cell.textLabel.textColor = [Theme fontWhite];
+    
+    cell.backgroundColor = [Theme backgroundBlue];
+    
+    
+    UIView *bgColorView = [[UIView alloc] init];
+    bgColorView.backgroundColor = [Theme lightBlue];
+//    bgColorView.layer.cornerRadius = 7;
+    bgColorView.layer.masksToBounds = YES;
+    [cell setSelectedBackgroundView:bgColorView];
+    
+    
+    
     return cell;
 }
 

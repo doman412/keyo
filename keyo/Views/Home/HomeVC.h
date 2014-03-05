@@ -8,14 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface HomeVC : UITableViewController<UIActionSheetDelegate,UINavigationControllerDelegate>
 
-@property (strong,nonatomic) UIBarButtonItem *refreshButton;
-@property (strong,nonatomic) NSMutableArray *data;
+@property (strong, nonatomic) UIBarButtonItem *refreshButton;
+@property (strong, nonatomic) NSMutableArray *data;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *myHubButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *startButton;
-@property (strong,nonatomic) PFObject *myHub;
+@property (strong, nonatomic) PFObject *myHub;
+
++(AVPlayer*)myPlayer;
++(AVPlayer *)myPlayerWithURL:(NSURL*)url;
++(AVPlayer*)newPlayer;
++(AVPlayer *)newPlayerWithURL:(NSURL*)url;
 
 - (IBAction)onAddSite:(id)sender;
 - (IBAction)onRefreshSites:(id)sender;

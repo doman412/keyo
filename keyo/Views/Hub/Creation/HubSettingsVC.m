@@ -8,6 +8,8 @@
 
 #import "HubSettingsVC.h"
 
+#import "Theme.h"
+
 @interface HubSettingsVC ()
 
 @end
@@ -33,6 +35,8 @@
 //    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:self.saveButton, nil];
     
     self.hub = [PFObject objectWithClassName:@"Hub"];
+    
+    self.view.backgroundColor = [Theme backgroundBlue];
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,6 +78,12 @@
         
     }
     return nil;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *hfView = (id)view;
+    hfView.textLabel.textColor = [Theme orange];
 }
 
 - (IBAction)onPublicSwitchChanged:(id)sender
@@ -161,7 +171,7 @@
         o[@"owner"] = [PFUser currentUser];
         o[@"title"] = [i valueForProperty:MPMediaItemPropertyTitle];
         o[@"artist"] = [i valueForProperty:MPMediaItemPropertyArtist];
-        o[@"pid"] = [i valueForProperty:MPMediaItemPropertyPersistentID];
+        o[@"pid"] = [NSString stringWithFormat:@"%@", [i valueForProperty:MPMediaItemPropertyPersistentID]];
         o[@"url"] = [[i valueForProperty:MPMediaItemPropertyAssetURL] absoluteString];
         
         [self.selectedSongs addObject:o];

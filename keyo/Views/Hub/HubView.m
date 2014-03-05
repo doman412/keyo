@@ -44,7 +44,7 @@
     self.navigationItem.title = self.hub[@"title"];
     
     self.tabBarItem.title = @"Queue";
-    
+//    self.tabBarItem.im
     
     
 }
@@ -76,7 +76,7 @@
     if(!err){
         self.data = [NSMutableArray arrayWithArray:objects];
         [self.tableView reloadData];
-        self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%li",objects.count];
+        self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%li",(unsigned long)objects.count];
     } else {
         NSLog(@"failed to get songs");
     }
@@ -103,14 +103,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"QueueCell";
+    PFObject *queuedSong = [self.data objectAtIndex:indexPath.row];
+    PFObject *obj = queuedSong[@"song"];
+    
+    NSString *CellIdentifier = @"QueueCell";
+    
     QueueCell *cell = (id)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    PFObject *queuedSong = [self.data objectAtIndex:indexPath.row];
-    
-    PFObject *obj = queuedSong[@"song"];
-    
     cell.queuedSong = queuedSong;
     [cell setPoints: [queuedSong[@"points"] integerValue]];
     cell.songTitle.text = obj[@"title"];

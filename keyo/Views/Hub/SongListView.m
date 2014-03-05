@@ -8,6 +8,8 @@
 
 #import "SongListView.h"
 
+#import "Theme.h"
+
 @interface SongListView ()
 
 @end
@@ -59,10 +61,17 @@
     [self.query whereKey:@"owner" equalTo:[PFUser currentUser]];
 //    [self loadSongs];
     */
+
+    
+    
+    
+//    [[UITabBar appearance] setTintColor:[Theme fontWhite]]; // for unselected items that are gray
+//    [[UITabBar appearance] setSelectedImageTintColor:[Theme lightBlue]]; // for selected items that are green
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self.query cancel];
     [self loadSongs];
 }
 
@@ -90,7 +99,7 @@
             [self.data removeAllObjects];
             [self.data addObjectsFromArray:objects];
             [self.tableView reloadData];
-            self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%li",objects.count];
+            self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%li",(unsigned long)objects.count];
         } else {
             NSLog(@"failed to get songs");
         }

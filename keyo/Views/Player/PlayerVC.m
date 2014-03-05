@@ -7,12 +7,18 @@
 //
 
 #import "PlayerVC.h"
+#import "HCYoutubeParser.h"
+#import "HomeVC.h"
+
 
 @interface PlayerVC ()
 
 @end
 
 @implementation PlayerVC
+
+const NSInteger Native = 0;
+const NSInteger YouTube = 1;
 
 @synthesize hub,trashConfirm,trashButton;
 
@@ -30,8 +36,30 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.playerType = Native;
+    
     self.player = [MPMusicPlayerController iPodMusicPlayer];
     [self.player beginGeneratingPlaybackNotifications];
+    
+    self.ytPlayer = [HomeVC myPlayer];
+//    NSLog(@"player layer: %@", self.ytPlayer.)
+    AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:self.ytPlayer];
+    [layer setPlayer:nil];
+    
+    
+    [AVAudioSession sharedInstance];
+    
+    NSError *myErr;
+    
+    // Initialize the AVAudioSession here.
+    if (![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&myErr]) {
+        // Handle the error here.
+        NSLog(@"Audio Session error %@, %@", myErr, [myErr userInfo]);
+    }
+    else{
+        // Since there were no errors initializing the session, we'll allow begin receiving remote control events
+        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    }
     
     if(self.player.currentPlaybackRate==0.0){
         [self.playPauseButton setImage:[UIImage imageNamed:@"play-75"] forState:UIControlStateNormal];
@@ -41,6 +69,11 @@
         self.artistTitleLabel.text = [item valueForProperty:MPMediaItemPropertyArtist];
     }
     
+    if(self.player.nowPlayingItem){
+        MPMediaItem *item = self.player.nowPlayingItem;
+        self.songTitleLabel.text = [item valueForProperty:MPMediaItemPropertyTitle];
+        self.artistTitleLabel.text = [item valueForProperty:MPMediaItemPropertyArtist];
+    }
     
     self.title = self.hub[@"title"];
     
@@ -48,19 +81,24 @@
     
     self.trashConfirm = [[UIAlertView alloc] initWithTitle:@"Delete?" message:@"Are you sure you want to delete this hub?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     
+    [self.barTimer invalidate];
     self.barTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
     [self.barTimer fire];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onNowPlayingItemChanged:) name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPlaybackStateChanged:) name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onYoutubePlaybackStateChanged:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+
+//    [self.ytPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self loadSongsAndNext:NO];
     
+    [self.barTimer invalidate];
+    self.barTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
     [self.barTimer fire];
 }
 
@@ -73,6 +111,18 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == self.ytPlayer && [keyPath isEqualToString:@"status"]) {
+        if (self.ytPlayer.status == AVPlayerStatusReadyToPlay) {
+            NSLog(@"yt player is ready to play");
+        } else if (self.ytPlayer.status == AVPlayerStatusFailed) {
+            // something went wrong. player.error should contain some information
+            NSLog(@"yt player has failed: %@", self.ytPlayer.error);
+        }
+    }
 }
 
 - (void)loadSongsAndNext:(BOOL)next
@@ -99,29 +149,76 @@
                     PFObject *first = [self.data firstObject];
                     PFObject *song = first[@"song"];
                     
-                    NSNumber *blah = [song objectForKey:@"pid"];
-                    MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue: [NSString stringWithFormat:@"%@",blah] forProperty:MPMediaItemPropertyPersistentID];
-                    
-                    MPMediaQuery *mediaQuery = [[MPMediaQuery alloc] init];
-                    [mediaQuery addFilterPredicate:predicate];
-                    
-                    [self.player setQueueWithQuery:mediaQuery];
-                    [self.player play];
-                    
-                    [self.playPauseButton setImage:[UIImage imageNamed:@"pause-75"] forState:UIControlStateNormal];
-                    [self.barTimer fire];
+                    if([song[@"type"] isEqualToString:@"yt"]){ // song is from YouTube so change to playerType: YouTube
+                        self.playerType = YouTube;
+                        
+                        
+                        NSLog(@"next song is from YouTube: %@", song[@"url"]);
+//                        NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeID:song[@"pid"] ];
+//                        NSURL *url = [NSURL URLWithString:[videos objectForKey:@"medium"]];
+                        NSURL *url = [NSURL URLWithString:song[@"url"]];
+                        
+//                        NSLog(@"youtube videos: %@", videos);
+                        NSLog(@"youtube url: %@", url);
+//                        [self.ytPlayer replaceCurrentItemWithPlayerItem:[AVPlayerItem playerItemWithURL:url]];
+                        self.ytPlayer = [HomeVC newPlayerWithURL:url];
+                        
+                        [self.barTimer invalidate];
+                        self.barTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
+                        [self.barTimer fire];
+                        
+                        if(self.player.currentPlaybackRate==1.0){
+                            NSLog(@"pause song on youtube");
+                            [self.player pause];
+                        }
+                        
+                        [self.ytPlayer play];
+                        
+                    } else {
+                        self.playerType = Native;
+                        
+                        
+                        NSString *pid = [song objectForKey:@"pid"];
+                        NSNumber *blah = [NSNumber numberWithLongLong:[pid longLongValue]];
+                        NSLog(@"next song is native on device: %@\n%@", pid,blah);
+                        
+                        MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue: [NSString stringWithFormat:@"%@",blah] forProperty:MPMediaItemPropertyPersistentID];
+                        
+                        MPMediaQuery *mediaQuery = [[MPMediaQuery alloc] init];
+                        [mediaQuery addFilterPredicate:predicate];
+                        
+                        self.player.nowPlayingItem = nil;
+                        [self.player setQueueWithQuery:mediaQuery];
+                        [self.player play];
+                        
+                        [self.playPauseButton setImage:[UIImage imageNamed:@"pause-75"] forState:UIControlStateNormal];
+                        
+                        [self.barTimer invalidate];
+                        self.barTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
+                        [self.barTimer fire];
+                    }
                     
                     [self.data removeObject:first];
                     
-                    
                     self.songTitleLabel.text = song[@"title"];
                     self.artistTitleLabel.text = song[@"artist"];
+                    
+                    NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
+                    
+//                    MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage: [UIImage imagedNamed:@"AlbumArt"]];
+                    
+                    [songInfo setObject:song[@"title"] forKey:MPMediaItemPropertyTitle];
+                    [songInfo setObject:song[@"artist"] forKey:MPMediaItemPropertyArtist];
+//                    [songInfo setObject:@"Audio Album" forKey:MPMediaItemPropertyAlbumTitle];
+//                    [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
+                    [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
                     
                     
                     first[@"active"] = @NO;
                     [first saveInBackground];
                     
                     [self.tableView reloadData];
+                    
                 }
                 
             }
@@ -155,19 +252,52 @@
 }
 
 - (IBAction)onPlayToggle:(id)sender {
-    if(self.player.currentPlaybackRate==0.0){ // not playing
-        
-        if(self.player.nowPlayingItem){ // have a paused item, play it
-            [self.player play];
-            [self.playPauseButton setImage:[UIImage imageNamed:@"pause-75"] forState:UIControlStateNormal];
-            [self.barTimer fire];
-        } else { // dont have an item to play get next one and play it
-            [self loadSongsAndNext:YES];
+    
+    if(self.playerType == Native){
+    
+        if(self.player.currentPlaybackRate==0.0){ // not playing
+            
+            if(self.player.nowPlayingItem){ // have a paused item, play it
+                [self.player play];
+                [self.playPauseButton setImage:[UIImage imageNamed:@"pause-75"] forState:UIControlStateNormal];
+                
+                [self.barTimer invalidate];
+                self.barTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
+                [self.barTimer fire];
+            } else { // dont have an item to play get next one and play it
+                [self loadSongsAndNext:YES];
+            }
+        } else if(self.player.currentPlaybackRate==1.0) { // playing
+            [self.barTimer invalidate];
+            [self.player pause];
+            [self.playPauseButton setImage:[UIImage imageNamed:@"play-75"] forState:UIControlStateNormal];
         }
-    } else if(self.player.currentPlaybackRate==1.0) { // playing
-        [self.barTimer invalidate];
-        [self.player pause];
-        [self.playPauseButton setImage:[UIImage imageNamed:@"play-75"] forState:UIControlStateNormal];
+        
+    } else if(self.playerType == YouTube){
+        NSLog(@"youtube player");
+        if(self.ytPlayer.rate==0.0){ // not playing
+            NSLog(@"--not playing");
+            if(self.ytPlayer.currentItem){
+                NSLog(@"--has current item, play it");
+                [self.ytPlayer play];
+                [self.playPauseButton setImage:[UIImage imageNamed:@"pause-75"] forState:UIControlStateNormal];
+                
+                [self.barTimer invalidate];
+                self.barTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
+                [self.barTimer fire];
+            } else {
+                NSLog(@"--no item, find next");
+                [self loadSongsAndNext:YES];
+            }
+        } else if(self.ytPlayer.rate==1.0) { // is playing
+            NSLog(@"--is playing, pause it");
+            
+            [self.barTimer invalidate];
+            [self.ytPlayer pause];
+            [self.playPauseButton setImage:[UIImage imageNamed:@"play-75"] forState:UIControlStateNormal];
+        }
+        
+        
     }
 }
 
@@ -199,7 +329,7 @@
         o[@"owner"] = [PFUser currentUser];
         o[@"title"] = [i valueForProperty:MPMediaItemPropertyTitle];
         o[@"artist"] = [i valueForProperty:MPMediaItemPropertyArtist];
-        o[@"pid"] = [i valueForProperty:MPMediaItemPropertyPersistentID];
+        o[@"pid"] = [NSString stringWithFormat:@"%@", [i valueForProperty:MPMediaItemPropertyPersistentID]];
         o[@"url"] = [[i valueForProperty:MPMediaItemPropertyAssetURL] absoluteString];
         
         
@@ -264,27 +394,69 @@
 
 - (void)onPlaybackStateChanged:(NSNotification*)noti
 {
-    int state = [[noti.userInfo objectForKey:@"MPMusicPlayerControllerPlaybackStateKey"] intValue];
-    if(state == MPMusicPlaybackStateStopped){
-        NSLog(@"playback stopped");
-        [self loadSongsAndNext:YES];
+    if(self.playerType == Native){
+        int state = [[noti.userInfo objectForKey:@"MPMusicPlayerControllerPlaybackStateKey"] intValue];
+        if(state == MPMusicPlaybackStateStopped){
+            NSLog(@"playback stopped");
+            [self loadSongsAndNext:YES];
+        }
     }
-    
+//    else if(self.playerType == YouTube){
+//        NSLog(@"YouTube playback state changed: %@",noti);
+//        int state = [[noti.userInfo objectForKey:@"MPMusicPlayerControllerPlaybackStateKey"] intValue];
+//        if(state){
+//            if(state != MPMusicPlaybackStateStopped){
+//                [self loadSongsAndNext:YES];
+//            }
+//        } else {
+//            NSLog(@"youtube video over, play next");
+//            [self loadSongsAndNext:YES];
+//        }
+//    }
 }
+
+- (void)onYoutubePlaybackStateChanged:(NSNotification*)noti
+{
+    NSLog(@"YouTube playback state changed: %@",noti);
+//    int state = [[noti.userInfo objectForKey:@"MPMusicPlayerControllerPlaybackStateKey"] intValue];
+//    if(state){
+//        if(state != MPMusicPlaybackStateStopped){
+//            [self loadSongsAndNext:YES];
+//        }
+//    } else {
+//        NSLog(@"youtube video over, play next");
+        [self loadSongsAndNext:YES];
+//    }
+
+}
+
 - (void)onNowPlayingItemChanged:(NSNotification*)noti
 {
-//    NSLog(@"now playing item changed: %@",noti);
+
+    if(self.playerType == Native){
+        NSLog(@"Native now playing item changed: %@",noti);
+    } else if(self.playerType == YouTube){
+        NSLog(@"YouTube now playing item changed: %@",noti);
+    }
 }
 
 - (void)onTimer:(NSTimer*)timer
 {
-    MPMediaItem *item = self.player.nowPlayingItem;
+    if(self.playerType == Native){
+        MPMediaItem *item = self.player.nowPlayingItem;
+        
+        NSNumber *dur = [item valueForProperty:MPMediaItemPropertyPlaybackDuration];
+        
+        [self.progressBar setProgress:(self.player.currentPlaybackTime/[dur doubleValue]) animated:YES];
+    } else if(self.playerType == YouTube){
+        AVPlayerItem *item = self.ytPlayer.currentItem;
+        
+        CMTime dur = item.duration;
+        
+        [self.progressBar setProgress:(CMTimeGetSeconds(self.ytPlayer.currentTime)/CMTimeGetSeconds(dur)) animated:YES];
+    }
     
-    NSNumber *dur = [item valueForProperty:MPMediaItemPropertyPlaybackDuration];
     
-    NSLog(@"timer: %f",(self.player.currentPlaybackTime/[dur doubleValue]));
-    
-    [self.progressBar setProgress:(self.player.currentPlaybackTime/[dur doubleValue]) animated:YES];
 }
 
 

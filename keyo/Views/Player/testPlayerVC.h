@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LBYouTubePlayerViewController.h"
 #import "YTVC.h"
 
 @interface testPlayerVC : UIViewController

@@ -7,11 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LBYouTubePlayerViewController.h"
 
-@interface YTVC : UIViewController<LBYouTubePlayerControllerDelegate,LBYouTubeExtractorDelegate>
-
-@property (strong,nonatomic) LBYouTubePlayerViewController *controller;
-@property (strong,nonatomic) MPMoviePlayerController *mp;
-
+@interface YTVC : UIViewController
 @end
