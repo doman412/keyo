@@ -62,7 +62,10 @@
 //    [self loadSongs];
     */
 
+    self.tableView.backgroundColor = [Theme wellWhite];
     
+    self.tabBarController.tabBar.tintColor = [Theme wellWhite];
+    self.tabBarController.tabBar.barTintColor = [Theme backgroundBlue];
     
     
 //    [[UITabBar appearance] setTintColor:[Theme fontWhite]]; // for unselected items that are gray
@@ -71,6 +74,11 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
+    self.parentViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    self.parentViewController.navigationItem.title = self.navigationItem.title;
+    
     [self.query cancel];
     [self loadSongs];
 }
@@ -134,6 +142,12 @@
     title.text = obj[@"title"];
     UILabel *artist = (id)[cell viewWithTag:2];
     artist.text = obj[@"artist"];
+    
+    
+    // theme the cell
+    cell.backgroundColor = [Theme wellWhite];
+    title.textColor = [Theme fontBlack];
+    artist.textColor = [Theme fontBlack];
     
     return cell;
 }

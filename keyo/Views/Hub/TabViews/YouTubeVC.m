@@ -11,10 +11,9 @@
 #import "AFNetworking.h"
 #import "Theme.h"
 #import "UIImage+Color.h"
+#import "DejalActivityView.h"
 
-@interface YouTubeVC (){
-    BOOL findSongUrl;
-}
+@interface YouTubeVC ()
 
 @end
 
@@ -31,21 +30,18 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    [manager GET:@"http://example.com/resources.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"JSON: %@", responseObject);
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"Error: %@", error);
-//    }];
-    
-//    UIImage *im = [[UIImage imageNamed:@"spotify-logo-vertical-black-rgb_32"] tintedImageWithColor:[Theme backgroundBlue]];
-//    UIImage *sel = [[UIImage imageNamed:@"spotify-logo-vertical-black-rgb_32"] tintedImageWithColor:[Theme fontWhite]];
-//    
-//    self.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"" image:im selectedImage:sel];
-    
-//    tbi.image = [tbi.image imageWithColor:[Theme backgroundBlue]];
-    
+    // theme the vc
+    self.tableView.backgroundColor = [Theme wellWhite];
+    self.searchBar.backgroundColor = [Theme backgroundBlue];
+    self.searchBar.barTintColor = [Theme backgroundBlue];
+
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.parentViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    self.parentViewController.navigationItem.title = self.navigationItem.title;
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,12 +92,16 @@
         [self.images setObject:image.image forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     }
     
-    UIView *bgColorView = [[UIView alloc] init];
-    bgColorView.backgroundColor = [Theme lightBlue];
-    //    bgColorView.layer.cornerRadius = 7;
-    bgColorView.layer.masksToBounds = YES;
-    [cell setSelectedBackgroundView:bgColorView];
+//    UIView *bgColorView = [[UIView alloc] init];
+//    bgColorView.backgroundColor = [Theme lightBlue];
+//    //    bgColorView.layer.cornerRadius = 7;
+//    bgColorView.layer.masksToBounds = YES;
+//    [cell setSelectedBackgroundView:bgColorView];
     
+    // theme the cell
+    cell.selectedBackgroundView.backgroundColor = [Theme lightBlue];
+    cell.backgroundColor = [Theme wellWhite];
+    label.textColor = [Theme fontBlack];
     
     return cell;
 }
@@ -115,20 +115,23 @@
     NSString *artist = [snippet objectForKey:@"channelTitle"];
     NSDictionary *ID = [item objectForKey:@"id"];
     NSString *videoId = [ID objectForKey:@"videoId"];
+    NSString *description = [snippet objectForKey:@"description"];
+    
+    NSDictionary *thumbnails = [snippet objectForKey:@"thumbnails"];
+    NSDictionary *defaultImg = [thumbnails objectForKey:@"high"];
+    NSString *imgURL = [defaultImg objectForKey:@"url"];
     
     
-    [Waiting show:self];
     
     
     
     PFQuery *q = [PFQuery queryWithClassName:@"Song"];
-    [q whereKey:@"pid" equalTo:videoId];
+    [q whereKey:@"pId" equalTo:videoId];
     [q whereKey:@"type" equalTo:@"yt"];
     [q findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if(!error){
             if(objects.count>0){
                 NSLog(@"found song for yt id: %@",videoId);
-                findSongUrl = NO;
                 PFObject *song = [objects objectAtIndex:0];
                 
                 PFQuery *q = [PFQuery queryWithClassName:@"QueuedSong"];
@@ -158,7 +161,6 @@
                         }
                     } else {
                         NSLog(@"error counting queued songs: %@",error);
-                        [Waiting hide];
                     }
                 }];
                 
@@ -170,7 +172,9 @@
                 song[@"title"] = title;
                 song[@"artist"] = artist;
                 song[@"type"] = @"yt";
-                song[@"pid"] = videoId;
+                song[@"pId"] = videoId;
+                song[@"thumbnail"] = imgURL;
+                song[@"description"] = description;
                 
                 
                 [song saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -184,17 +188,15 @@
                         
                         [alert show];
                         self.selectedSong = song;
-                        findSongUrl = YES;
+//                        findSongUrl = YES;
                         
                         
                     } else {
                         NSLog(@"error saving youtube song: %@", error);
-                        [Waiting hide];
                     }
                 }];
             }
         } else {
-            [Waiting hide];
             NSLog(@"error trying to find song: %@",videoId);
         }
     }];
@@ -225,27 +227,15 @@
         queuedSong[@"song"] = song;
         queuedSong[@"hub"] = self.hub;
         queuedSong[@"addedBy"] = [PFUser currentUser];
-        queuedSong[@"points"] = @1;
-        queuedSong[@"up"] = @1;
-        queuedSong[@"down"] = @0;
+        queuedSong[@"ups"] = @[[PFUser currentUser].objectId];
+        queuedSong[@"downs"] = @[];
         queuedSong[@"active"] = @YES;
         
-//        [queuedSong saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//            if(!succeeded){
-//                NSLog(@"failed to save queued song: %@", error);
-//            }
-//        }];
-        if(findSongUrl){
-            self.webView.delegate = self;
-            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat: @"http://www.ssyoutube.com/watch?v=%@",song[@"pid"]]]]];
-        } else {
-            [self.queuedSongToAdd saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if(!succeeded){
-                    NSLog(@"failed to save queued song");
-                }
-                [Waiting hide];
-            }];
-        }
+        [self.queuedSongToAdd saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if(!succeeded){
+                NSLog(@"failed to save queued song");
+            }
+        }];
         
     }
 }
@@ -255,12 +245,23 @@
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     searchBar.showsCancelButton = YES;
+    
+    for (UIView *subView in searchBar.subviews){
+        if([subView isKindOfClass:[UIButton class]]){
+            NSLog(@"this is button type");
+            
+            [(UIButton *)subView setTintColor:[Theme fontBlack]];
+//            [(UIButton *)subView setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        }
+    }
 }
 
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     NSLog(@"search for: %@", searchBar.text);
+    [self hideSearchBar];
+    [DejalBezelActivityView activityViewForView:self.navigationController.view withLabel:@"Searching..."];
     
     searchBar.showsCancelButton = NO;
     [searchBar resignFirstResponder];
@@ -288,114 +289,72 @@
         self.data = [NSMutableArray arrayWithArray:arr];
         [self.tableView reloadData];
         
-        
+        [DejalBezelActivityView removeViewAnimated:YES];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        [DejalBezelActivityView removeViewAnimated:YES];
     }];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    searchBar.showsCancelButton = NO;
-    [searchBar resignFirstResponder];
+//    searchBar.showsCancelButton = NO;
+//    [searchBar resignFirstResponder];
+    [self hideSearchBar];
 }
 
-#pragma mark - web view delegate
-
--(void)webViewDidFinishLoad:(UIWebView *)webView
+- (IBAction)onSearch:(id)sender
 {
-    NSLog(@"web view did finish load");
-    JSContext *ctx = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    ctx[@"console"][@"log"] = ^(JSValue *msg) {
-        NSString *str = [NSString stringWithFormat:@"%@",msg];
-        NSLog(@"**JS** : %@", msg);
-        if([str containsString:@"http"]){
-            NSLog(@"found url: %@",str);
-            self.selectedSong[@"url"] = str;
-            self.queuedSongToAdd[@"song"] = self.selectedSong;
-            [self.queuedSongToAdd saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if(!succeeded){
-                    NSLog(@"failed to save queued song");
-                }
-                [Waiting hide];
-            }];
-        }
-        
-    };
-    // $("a[title='video format: 360p']").attr('href');
-    [ctx evaluateScript:@"console.log($(\"a[title='video format: 360p']\").attr('href'))"];
-    //    [ctx evaluateScript:@"YoutubeVideo('_ovdm2yX4MA', function(video){ \
-    //     console.log(video.title); \
-    //     var webm = video.getSource(\"video/webm\", \"medium\"); \
-    //     console.log(\"WebM: \" + webm.url); \
-    //     var mp4 = video.getSource(\"video/mp4\", \"medium\"); \
-    //     console.log(\"MP4: \" + mp4.url); \
-    //     $(\"<video controls='controls'/>\").attr(\"src\", webm.url).appendTo(\"body\"); \
-    //     })"];
+    if(self.searchBar.hidden){
+        [self showSearchBar];
+    } else {
+        [self hideSearchBar];
+    }
+}
+
+- (void)hideSearchBar
+{
     
-    /*
-     YoutubeVideo('_ovdm2yX4MA', function(video){
-     console.log(video.title);
-     var webm = video.getSource("video/webm", "medium");
-     console.log("WebM: " + webm.url);
-     var mp4 = video.getSource("video/mp4", "medium");
-     console.log("MP4: " + mp4.url);
-     
-     $("<video controls='controls'/>").attr("src", webm.url).appendTo("body");
-     });
-     */
+    
+    if(self.searchBar.hidden==NO){
+        CGRect newFrameSize = CGRectMake(0, self.tableView.frame.origin.y-44, self.tableView.frame.size.width, self.tableView.frame.size.height+44);
+        
+        [self.searchBar resignFirstResponder];
+        [UIView animateWithDuration:0.4 animations:^{
+            self.tableView.frame = newFrameSize;
+            self.searchBar.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            self.searchBar.hidden = YES;
+        }];
+    }
+    
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)showSearchBar
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    
+    if(self.searchBar.hidden==YES){
+        CGRect newFrameSize = CGRectMake(0, self.tableView.frame.origin.y+44, self.tableView.frame.size.width, self.tableView.frame.size.height-44);
+        
+        self.searchBar.hidden = NO;
+        [UIView animateWithDuration:0.4 animations:^{
+            self.tableView.frame = newFrameSize;
+            self.searchBar.alpha = 1.0;
+        } completion:^(BOOL finished) {
+            [self.searchBar becomeFirstResponder];
+        }];
+    }
+    
+    
 }
 
- */
+
+
+
+
+
+
+
 
 @end

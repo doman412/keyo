@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import <JavaScriptCore/JavaScriptCore.h>
-#import "Waiting.h"
 #import "NSString+ContainsAddition.h"
 
-@interface YouTubeVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIAlertViewDelegate,UIWebViewDelegate>
+@interface YouTubeVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *data;
 @property (strong, nonatomic) NSMutableDictionary *images;
@@ -22,7 +21,10 @@
 
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) IBOutlet UIWebView *webView;
 
+- (IBAction)onSearch:(id)sender;
+
+-(void)hideSearchBar;
+-(void)showSearchBar;
 
 @end

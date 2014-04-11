@@ -7,6 +7,7 @@
 //
 
 #import "SignUpVC.h"
+#import "Theme.h"
 
 @interface SignUpVC ()
 
@@ -27,6 +28,18 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.view.backgroundColor = [Theme backgroundBlue];
+    
+    self.titleLabel.textColor = [Theme wellWhite];
+    
+    [self.signUpButton setTitleColor:[Theme wellWhite] forState:UIControlStateNormal];
+    self.signUpButton.backgroundColor = [Theme lightBlue];
+    self.signUpButton.layer.cornerRadius = 3.0;
+    
+    [self.cancelButton setTitleColor:[Theme wellWhite] forState:UIControlStateNormal];
+    self.cancelButton.backgroundColor = [Theme lightBlue];
+    self.cancelButton.layer.cornerRadius = 3.0;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -37,24 +50,52 @@
 
 - (IBAction)onSignUp:(id)sender {
     
-    if([self.emailField.text isEqualToString:self.confirmEmail.text]){
-    
-        PFUser *u = [PFUser user];
-    
-        u.username = self.emailField.text;
-        u.password = self.passField.text;
-        u.email = self.emailField.text;
+    if([self validateEmail:self.emailField.text]){
         
-        [u signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if(!error){
-                [self dismissViewControllerAnimated:YES completion:nil];
+        if(self.usernameField.text && ![self.usernameField.text isEqualToString:@""]){
+            
+            if(self.passField.text && ![self.passField.text isEqualToString:@""]){
+                
+                PFUser *u = [PFUser user];
+                
+                u.username = self.usernameField.text;
+                u.password = self.passField.text;
+                u.email = self.emailField.text;
+                
+                [u signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if(!error){
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    } else {
+                        NSLog(@"err signing up");
+                        [[[UIAlertView alloc] initWithTitle:@"ERROR" message:@"Sorry, an error occured while attempting to sign up." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+                    }
+                }];
+                
             } else {
-                NSLog(@"err signing up");
+                [[[UIAlertView alloc] initWithTitle:@"No Password" message:@"Please enter a password." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
             }
-        }];
+            
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"No Username" message:@"Please enter a username." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+        }
+        
     } else {
-        NSLog(@"emails dont match");
+        [[[UIAlertView alloc] initWithTitle:@"Bad Email" message:@"Please enter a valid formed email." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
     }
+}
+
+- (BOOL) validateEmail: (NSString *) candidate {
+    NSString *emailRegex =
+    @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
+    @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
+    @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
+    @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
+    @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
+    @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
+    @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex];
+    
+    return [emailTest evaluateWithObject:candidate];
 }
 
 - (IBAction)onCancel:(id)sender {
@@ -63,9 +104,9 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
-    if(textField==self.emailField){
-        [self.confirmEmail becomeFirstResponder];
-    } else if(textField==self.confirmEmail){
+    if(textField==self.usernameField){
+        [self.emailField becomeFirstResponder];
+    } else if(textField==self.emailField){
         [self.passField becomeFirstResponder];
     } else if(textField==self.passField){
         [textField resignFirstResponder];
@@ -74,5 +115,11 @@
     
     return YES;
 }
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+}
+
 
 @end

@@ -75,9 +75,10 @@
 -(void)showIt:(UIViewController*)vc{
     dvc = vc;
     //    vc.modalPresentationStyle = UIModalPresentationCurrentContext;
-    [vc.view.window makeKeyAndVisible];
-    vc.view.window.rootViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    [vc.view.window.rootViewController presentViewController:self animated:NO completion:nil];
+//    [vc.view.window makeKeyAndVisible];
+//    vc.view.window.rootViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
+//    [vc.view.window.rootViewController presentViewController:self animated:NO completion:nil];
+    [vc.view addSubview:self.view];
     
     //    vc.modalPresentationStyle = UIModalPresentationCurrentContext;
     //    [vc presentViewController:self animated:NO completion:nil];
@@ -98,10 +99,11 @@
 }
 
 -(void)hideIt:(UIViewController*)vc{
-    toDismiss = true;
-    if(showed){
-        [vc dismissViewControllerAnimated:NO completion:nil];
-    }
+//    toDismiss = true;
+//    if(showed){
+//        [vc dismissViewControllerAnimated:NO completion:nil];
+//    }
+    [self.view removeFromSuperview];
 }
 
 +(void)hide:(UIViewController*)vc{

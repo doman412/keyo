@@ -12,8 +12,11 @@
 @interface LoginVC : UIViewController<UITextFieldDelegate>
 
 
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *passField;
+@property (strong, nonatomic) IBOutlet UIButton *signUpButton;
+@property (strong, nonatomic) IBOutlet UIButton *loginButton;
 
 
 

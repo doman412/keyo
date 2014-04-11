@@ -11,9 +11,13 @@
 
 @interface SignUpVC : UIViewController<UITextFieldDelegate>
 
+
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
-@property (weak, nonatomic) IBOutlet UITextField *confirmEmail;
 @property (weak, nonatomic) IBOutlet UITextField *passField;
+@property (strong, nonatomic) IBOutlet UIButton *cancelButton;
+@property (strong, nonatomic) IBOutlet UIButton *signUpButton;
 
 - (IBAction)onSignUp:(id)sender;
 - (IBAction)onCancel:(id)sender;

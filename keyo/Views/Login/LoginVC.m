@@ -7,6 +7,7 @@
 //
 
 #import "LoginVC.h"
+#import "Theme.h"
 
 
 @interface LoginVC ()
@@ -28,6 +29,18 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.view.backgroundColor = [Theme backgroundBlue];
+    
+    self.titleLabel.textColor = [Theme wellWhite];
+    
+    [self.signUpButton setTitleColor:[Theme wellWhite] forState:UIControlStateNormal];
+    [self.loginButton setTitleColor:[Theme wellWhite] forState:UIControlStateNormal];
+    
+    self.signUpButton.backgroundColor = [Theme lightBlue];
+    self.signUpButton.layer.cornerRadius = 3.0;
+    
+    self.loginButton.backgroundColor = [Theme lightBlue];
+    self.loginButton.layer.cornerRadius = 3.0;
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,11 +67,14 @@
 - (void)onLoginReturn:(PFUser *)user error:(NSError *)error
 {
     if(error){
-        NSLog(@"onLoginReturn: err(%@)",error);
+        NSLog(@"onLoginReturn: %li, err(%@)",(long)error.code, error);
         UIAlertView *a;
         switch(error.code){
             case 101:
                 a = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Wrong username or password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                break;
+            case 100:
+                [[[UIAlertView alloc] initWithTitle:@"Connection Error" message:@"There was an issue connecting. Please make sure you have an internet connection established." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
                 break;
         }
         [a show];
@@ -80,5 +96,9 @@
     return YES;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+}
 
 @end

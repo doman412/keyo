@@ -37,20 +37,24 @@
 		3884A906186E18AE004400B8 /* HubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884A905186E18AE004400B8 /* HubView.m */; };
 		3884A9091870C2B8004400B8 /* SongListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884A9081870C2B8004400B8 /* SongListView.m */; };
 		3884A91018721C3D004400B8 /* QueueCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884A90F18721C3D004400B8 /* QueueCell.m */; };
+		C715076C18E7BF8B0006F3C3 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C715076B18E7BF8B0006F3C3 /* Parse.framework */; };
+		C715076E18E7BF980006F3C3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C715076D18E7BF980006F3C3 /* FacebookSDK.framework */; };
+		C715077018E7BFA80006F3C3 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C715076F18E7BFA80006F3C3 /* Spotify.framework */; };
+		C715077418EA7B5C0006F3C3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C715077318EA7B5C0006F3C3 /* Reachability.m */; };
+		C7497FD518CEC8EA00D86779 /* OptionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7497FD418CEC8EA00D86779 /* OptionsVC.m */; };
+		C7940A0A18D6791F0012B026 /* UIImage+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = C7940A0918D6791F0012B026 /* UIImage+Size.m */; };
+		C7940A1118DD90FF0012B026 /* dl.js in Sources */ = {isa = PBXBuildFile; fileRef = C7940A1018DD90FF0012B026 /* dl.js */; };
 		C7B330BE187FEA70008BA6A8 /* HubSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B330BD187FEA70008BA6A8 /* HubSettingsVC.m */; };
 		C7B330C1188098EE008BA6A8 /* UserSongsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B330C0188098EE008BA6A8 /* UserSongsVC.m */; };
 		C7B3311A188917AE008BA6A8 /* SongCellObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B33119188917AE008BA6A8 /* SongCellObject.m */; };
 		C7B3311D188920F1008BA6A8 /* SongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B3311C188920F1008BA6A8 /* SongCell.m */; };
 		C7B4FD0B18B9A46600D9E795 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD0A18B9A46600D9E795 /* Theme.m */; };
-		C7B4FD0D18BA8CDC00D9E795 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B4FD0C18BA8CDC00D9E795 /* Parse.framework */; };
-		C7B4FD0F18BACB1800D9E795 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B4FD0E18BACB1800D9E795 /* FacebookSDK.framework */; };
 		C7B4FD1318BACD3D00D9E795 /* YouTubeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD1218BACD3D00D9E795 /* YouTubeVC.m */; };
 		C7B4FD1618BC499700D9E795 /* TestWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD1518BC499700D9E795 /* TestWebView.m */; };
 		C7B4FD1918BC4A7600D9E795 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = C7B4FD1818BC4A7600D9E795 /* index.html */; };
 		C7B4FD1B18BC54E800D9E795 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B4FD1A18BC54E800D9E795 /* JavaScriptCore.framework */; };
 		C7B4FD1F18BC8C7600D9E795 /* HCYoutubeParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD1E18BC8C7600D9E795 /* HCYoutubeParser.m */; };
 		C7B4FD2118BCA57400D9E795 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B4FD2018BCA57400D9E795 /* AVFoundation.framework */; };
-		C7B4FD2518BFC42200D9E795 /* XCDYouTubeVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD2418BFC42200D9E795 /* XCDYouTubeVideoPlayerViewController.m */; };
 		C7B4FD2C18BFCD4400D9E795 /* LBYouTubeExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD2918BFCD4400D9E795 /* LBYouTubeExtractor.m */; };
 		C7B4FD2D18BFCD4400D9E795 /* LBYouTubePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD2B18BFCD4400D9E795 /* LBYouTubePlayerViewController.m */; };
 		C7B4FD3118C004C700D9E795 /* MWYouTubeExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD3018C004C700D9E795 /* MWYouTubeExtractor.m */; };
@@ -59,8 +63,10 @@
 		C7B4FD3718C02FF400D9E795 /* Waiting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7B4FD3618C02FF400D9E795 /* Waiting.storyboard */; };
 		C7B4FD3B18C032CD00D9E795 /* Waiting.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD3A18C032CD00D9E795 /* Waiting.m */; };
 		C7B4FD3E18C1257C00D9E795 /* NSString+ContainsAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B4FD3D18C1257C00D9E795 /* NSString+ContainsAddition.m */; };
+		C7B5741918F25EDF003C7B1C /* SoundCloudVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B5741818F25EDF003C7B1C /* SoundCloudVC.m */; };
 		C7B8901618C4786300CCE11F /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B8901518C4786300CCE11F /* UIImage+Color.m */; };
 		C7B8901918C5034600CCE11F /* SpotifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B8901818C5034600CCE11F /* SpotifyVC.m */; };
+		C7C92A2918F4D6BA00BDD758 /* HubViewSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7C92A2818F4D6BA00BDD758 /* HubViewSB.storyboard */; };
 		C7F170631895CF0400292699 /* PlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F170621895CF0400292699 /* PlayerVC.m */; };
 		D246FF6AC2804D549AC90393 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC6102451FE469993D73932 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -119,6 +125,16 @@
 		3884A90E18721C3D004400B8 /* QueueCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueueCell.h; path = Views/Hub/Cells/QueueCell.h; sourceTree = "<group>"; };
 		3884A90F18721C3D004400B8 /* QueueCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueueCell.m; path = Views/Hub/Cells/QueueCell.m; sourceTree = "<group>"; };
 		950269DA39754EA4B852653A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		C715076B18E7BF8B0006F3C3 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../../Documents/Dev/Frameworks/Parse/1.2.18/Parse.framework; sourceTree = "<group>"; };
+		C715076D18E7BF980006F3C3 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../Documents/Dev/Frameworks/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		C715076F18E7BFA80006F3C3 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spotify.framework; path = "../../../../Documents/Dev/Frameworks/Spotify/ios/ios-sdk-master__beta/Spotify.framework"; sourceTree = "<group>"; };
+		C715077218EA7B5C0006F3C3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		C715077318EA7B5C0006F3C3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		C7497FD318CEC8EA00D86779 /* OptionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsVC.h; path = Views/Home/OptionsVC.h; sourceTree = "<group>"; };
+		C7497FD418CEC8EA00D86779 /* OptionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsVC.m; path = Views/Home/OptionsVC.m; sourceTree = "<group>"; };
+		C7940A0818D6791F0012B026 /* UIImage+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Size.h"; sourceTree = "<group>"; };
+		C7940A0918D6791F0012B026 /* UIImage+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Size.m"; sourceTree = "<group>"; };
+		C7940A1018DD90FF0012B026 /* dl.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = dl.js; path = HTML/dl.js; sourceTree = "<group>"; };
 		C7B330BC187FEA70008BA6A8 /* HubSettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HubSettingsVC.h; path = Views/Hub/Creation/HubSettingsVC.h; sourceTree = "<group>"; };
 		C7B330BD187FEA70008BA6A8 /* HubSettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HubSettingsVC.m; path = Views/Hub/Creation/HubSettingsVC.m; sourceTree = "<group>"; };
 		C7B330BF188098EE008BA6A8 /* UserSongsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSongsVC.h; path = Views/Hub/Creation/UserSongsVC.h; sourceTree = "<group>"; };
@@ -129,8 +145,6 @@
 		C7B3311C188920F1008BA6A8 /* SongCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SongCell.m; path = Views/Hub/Creation/SongCell.m; sourceTree = "<group>"; };
 		C7B4FD0918B9A46600D9E795 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Theme.h; path = Theme/Theme.h; sourceTree = "<group>"; };
 		C7B4FD0A18B9A46600D9E795 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Theme.m; path = Theme/Theme.m; sourceTree = "<group>"; };
-		C7B4FD0C18BA8CDC00D9E795 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../Documents/Dev/Frameworks/Parse/Parse.framework; sourceTree = "<group>"; };
-		C7B4FD0E18BACB1800D9E795 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/Dev/Frameworks/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		C7B4FD1118BACD3D00D9E795 /* YouTubeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YouTubeVC.h; path = Views/Hub/TabViews/YouTubeVC.h; sourceTree = "<group>"; };
 		C7B4FD1218BACD3D00D9E795 /* YouTubeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YouTubeVC.m; path = Views/Hub/TabViews/YouTubeVC.m; sourceTree = "<group>"; };
 		C7B4FD1418BC499700D9E795 /* TestWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestWebView.h; path = Views/TestWebView.h; sourceTree = "<group>"; };
@@ -140,8 +154,6 @@
 		C7B4FD1D18BC8C7600D9E795 /* HCYoutubeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCYoutubeParser.h; sourceTree = "<group>"; };
 		C7B4FD1E18BC8C7600D9E795 /* HCYoutubeParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCYoutubeParser.m; sourceTree = "<group>"; };
 		C7B4FD2018BCA57400D9E795 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		C7B4FD2318BFC42200D9E795 /* XCDYouTubeVideoPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCDYouTubeVideoPlayerViewController.h; path = Library/XCDYouTubeVideoPlayer/XCDYouTubeVideoPlayerViewController.h; sourceTree = "<group>"; };
-		C7B4FD2418BFC42200D9E795 /* XCDYouTubeVideoPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XCDYouTubeVideoPlayerViewController.m; path = Library/XCDYouTubeVideoPlayer/XCDYouTubeVideoPlayerViewController.m; sourceTree = "<group>"; };
 		C7B4FD2718BFCD4400D9E795 /* LBYouTube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBYouTube.h; path = Library/LBYouTubeView/LBYouTube.h; sourceTree = "<group>"; };
 		C7B4FD2818BFCD4400D9E795 /* LBYouTubeExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LBYouTubeExtractor.h; path = Library/LBYouTubeView/LBYouTubeExtractor.h; sourceTree = "<group>"; };
 		C7B4FD2918BFCD4400D9E795 /* LBYouTubeExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LBYouTubeExtractor.m; path = Library/LBYouTubeView/LBYouTubeExtractor.m; sourceTree = "<group>"; };
@@ -156,10 +168,13 @@
 		C7B4FD3A18C032CD00D9E795 /* Waiting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Waiting.m; path = Views/UI/Waiting.m; sourceTree = "<group>"; };
 		C7B4FD3C18C1257C00D9E795 /* NSString+ContainsAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ContainsAddition.h"; sourceTree = "<group>"; };
 		C7B4FD3D18C1257C00D9E795 /* NSString+ContainsAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ContainsAddition.m"; sourceTree = "<group>"; };
+		C7B5741718F25EDF003C7B1C /* SoundCloudVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundCloudVC.h; path = Views/Hub/TabViews/SoundCloudVC.h; sourceTree = "<group>"; };
+		C7B5741818F25EDF003C7B1C /* SoundCloudVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundCloudVC.m; path = Views/Hub/TabViews/SoundCloudVC.m; sourceTree = "<group>"; };
 		C7B8901418C4786300CCE11F /* UIImage+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Color.h"; sourceTree = "<group>"; };
 		C7B8901518C4786300CCE11F /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
 		C7B8901718C5034600CCE11F /* SpotifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpotifyVC.h; path = Views/Hub/TabViews/SpotifyVC.h; sourceTree = "<group>"; };
 		C7B8901818C5034600CCE11F /* SpotifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpotifyVC.m; path = Views/Hub/TabViews/SpotifyVC.m; sourceTree = "<group>"; };
+		C7C92A2818F4D6BA00BDD758 /* HubViewSB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = HubViewSB.storyboard; path = Storyboards/HubViewSB.storyboard; sourceTree = "<group>"; };
 		C7F170611895CF0400292699 /* PlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerVC.h; path = Views/Player/PlayerVC.h; sourceTree = "<group>"; };
 		C7F170621895CF0400292699 /* PlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerVC.m; path = Views/Player/PlayerVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -169,10 +184,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C715077018E7BFA80006F3C3 /* Spotify.framework in Frameworks */,
+				C715076E18E7BF980006F3C3 /* FacebookSDK.framework in Frameworks */,
+				C715076C18E7BF8B0006F3C3 /* Parse.framework in Frameworks */,
 				C7B4FD2118BCA57400D9E795 /* AVFoundation.framework in Frameworks */,
 				C7B4FD1B18BC54E800D9E795 /* JavaScriptCore.framework in Frameworks */,
-				C7B4FD0F18BACB1800D9E795 /* FacebookSDK.framework in Frameworks */,
-				C7B4FD0D18BA8CDC00D9E795 /* Parse.framework in Frameworks */,
 				382A87991868033A00B4ADFA /* SystemConfiguration.framework in Frameworks */,
 				382A87971868032800B4ADFA /* StoreKit.framework in Frameworks */,
 				382A87951868031D00B4ADFA /* Security.framework in Frameworks */,
@@ -225,10 +241,11 @@
 		382A874C1867A33C00B4ADFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C715076F18E7BFA80006F3C3 /* Spotify.framework */,
+				C715076D18E7BF980006F3C3 /* FacebookSDK.framework */,
+				C715076B18E7BF8B0006F3C3 /* Parse.framework */,
 				C7B4FD2018BCA57400D9E795 /* AVFoundation.framework */,
 				C7B4FD1A18BC54E800D9E795 /* JavaScriptCore.framework */,
-				C7B4FD0E18BACB1800D9E795 /* FacebookSDK.framework */,
-				C7B4FD0C18BA8CDC00D9E795 /* Parse.framework */,
 				382A87981868033A00B4ADFA /* SystemConfiguration.framework */,
 				382A87961868032800B4ADFA /* StoreKit.framework */,
 				382A87941868031D00B4ADFA /* Security.framework */,
@@ -250,7 +267,7 @@
 		382A87531867A33C00B4ADFA /* keyo */ = {
 			isa = PBXGroup;
 			children = (
-				C7B4FD0818B9A42D00D9E795 /* Theme */,
+				C7B4FD0818B9A42D00D9E795 /* Utillities */,
 				3884A9111874CCCF004400B8 /* Icons */,
 				382A87871867A49700B4ADFA /* Storyboards */,
 				382A87861867A48300B4ADFA /* Views */,
@@ -274,6 +291,8 @@
 				382A875B1867A33C00B4ADFA /* keyo-Prefix.pch */,
 				C7B8901418C4786300CCE11F /* UIImage+Color.h */,
 				C7B8901518C4786300CCE11F /* UIImage+Color.m */,
+				C7940A0818D6791F0012B026 /* UIImage+Size.h */,
+				C7940A0918D6791F0012B026 /* UIImage+Size.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -325,6 +344,7 @@
 				382A875F1867A33C00B4ADFA /* Main_iPhone.storyboard */,
 				382A87621867A33C00B4ADFA /* Main_iPad.storyboard */,
 				C7B4FD3618C02FF400D9E795 /* Waiting.storyboard */,
+				C7C92A2818F4D6BA00BDD758 /* HubViewSB.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -347,6 +367,8 @@
 				382A87A5186C1FB700B4ADFA /* HomeVC.m */,
 				382A87A7186CB20500B4ADFA /* SiteObject.h */,
 				382A87A8186CB20500B4ADFA /* SiteObject.m */,
+				C7497FD318CEC8EA00D86779 /* OptionsVC.h */,
+				C7497FD418CEC8EA00D86779 /* OptionsVC.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -377,6 +399,15 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
+		C715077118EA7B3A0006F3C3 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				C715077218EA7B5C0006F3C3 /* Reachability.h */,
+				C715077318EA7B5C0006F3C3 /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		C7B330BB187FEA3D008BA6A8 /* Creation */ = {
 			isa = PBXGroup;
 			children = (
@@ -395,6 +426,7 @@
 		C7B3311E188A2E61008BA6A8 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				C715077118EA7B3A0006F3C3 /* Reachability */,
 				C7B4FD2E18C0044F00D9E795 /* MyYouTubeExtractor */,
 				C7B4FD2618BFCD3200D9E795 /* LBYouTube */,
 				C7B4FD2218BFC32300D9E795 /* XCDYouTubeVideoPlayer */,
@@ -412,13 +444,13 @@
 			name = Player;
 			sourceTree = "<group>";
 		};
-		C7B4FD0818B9A42D00D9E795 /* Theme */ = {
+		C7B4FD0818B9A42D00D9E795 /* Utillities */ = {
 			isa = PBXGroup;
 			children = (
 				C7B4FD0918B9A46600D9E795 /* Theme.h */,
 				C7B4FD0A18B9A46600D9E795 /* Theme.m */,
 			);
-			name = Theme;
+			name = Utillities;
 			sourceTree = "<group>";
 		};
 		C7B4FD1018BACCA000D9E795 /* TabViews */ = {
@@ -432,6 +464,8 @@
 				C7B4FD1218BACD3D00D9E795 /* YouTubeVC.m */,
 				C7B8901718C5034600CCE11F /* SpotifyVC.h */,
 				C7B8901818C5034600CCE11F /* SpotifyVC.m */,
+				C7B5741718F25EDF003C7B1C /* SoundCloudVC.h */,
+				C7B5741818F25EDF003C7B1C /* SoundCloudVC.m */,
 			);
 			name = TabViews;
 			sourceTree = "<group>";
@@ -439,6 +473,7 @@
 		C7B4FD1718BC4A3700D9E795 /* HTML */ = {
 			isa = PBXGroup;
 			children = (
+				C7940A1018DD90FF0012B026 /* dl.js */,
 				C7B4FD1818BC4A7600D9E795 /* index.html */,
 				C7B4FD3218C014F300D9E795 /* savefrom.html */,
 				C7B4FD3418C01F9800D9E795 /* youtube-video.js */,
@@ -459,8 +494,6 @@
 		C7B4FD2218BFC32300D9E795 /* XCDYouTubeVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				C7B4FD2318BFC42200D9E795 /* XCDYouTubeVideoPlayerViewController.h */,
-				C7B4FD2418BFC42200D9E795 /* XCDYouTubeVideoPlayerViewController.m */,
 			);
 			name = XCDYouTubeVideoPlayer;
 			sourceTree = "<group>";
@@ -557,7 +590,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 382A87451867A33C00B4ADFA /* Build configuration list for PBXProject "keyo" */;
+			buildConfigurationList = 382A87451867A33C00B4ADFA /* Build configuration list for PBXProject "Juke" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -583,6 +616,7 @@
 			files = (
 				C7B4FD1918BC4A7600D9E795 /* index.html in Resources */,
 				382A87641867A33C00B4ADFA /* Main_iPad.storyboard in Resources */,
+				C7C92A2918F4D6BA00BDD758 /* HubViewSB.storyboard in Resources */,
 				382A87691867A33C00B4ADFA /* Images.xcassets in Resources */,
 				C7B4FD3318C014F300D9E795 /* savefrom.html in Resources */,
 				382A87611867A33C00B4ADFA /* Main_iPhone.storyboard in Resources */,
@@ -642,9 +676,11 @@
 				C7B4FD1318BACD3D00D9E795 /* YouTubeVC.m in Sources */,
 				C7B4FD1618BC499700D9E795 /* TestWebView.m in Sources */,
 				382A875E1867A33C00B4ADFA /* AppDelegate.m in Sources */,
+				C7497FD518CEC8EA00D86779 /* OptionsVC.m in Sources */,
+				C715077418EA7B5C0006F3C3 /* Reachability.m in Sources */,
 				C7B4FD2D18BFCD4400D9E795 /* LBYouTubePlayerViewController.m in Sources */,
+				C7940A0A18D6791F0012B026 /* UIImage+Size.m in Sources */,
 				C7B330C1188098EE008BA6A8 /* UserSongsVC.m in Sources */,
-				C7B4FD2518BFC42200D9E795 /* XCDYouTubeVideoPlayerViewController.m in Sources */,
 				C7B330BE187FEA70008BA6A8 /* HubSettingsVC.m in Sources */,
 				C7B4FD2C18BFCD4400D9E795 /* LBYouTubeExtractor.m in Sources */,
 				3884A906186E18AE004400B8 /* HubView.m in Sources */,
@@ -652,6 +688,8 @@
 				C7B4FD3118C004C700D9E795 /* MWYouTubeExtractor.m in Sources */,
 				C7F170631895CF0400292699 /* PlayerVC.m in Sources */,
 				C7B3311A188917AE008BA6A8 /* SongCellObject.m in Sources */,
+				C7B5741918F25EDF003C7B1C /* SoundCloudVC.m in Sources */,
+				C7940A1118DD90FF0012B026 /* dl.js in Sources */,
 				382A87A2186BDB7D00B4ADFA /* SignUpVC.m in Sources */,
 				3884A91018721C3D004400B8 /* QueueCell.m in Sources */,
 				C7B4FD3B18C032CD00D9E795 /* Waiting.m in Sources */,
@@ -803,19 +841,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/doman412/Documents/Development/frameworks/Parse/iOS,
 					/Users/gazelle/Documents/Dev/Frameworks/Parse,
 					/Users/gazelle/Documents/Dev/Frameworks/FacebookSDK,
+					"/Users/gazelle/Documents/Dev/Frameworks/Spotify/ios/ios-sdk-master__beta",
+					/Users/gazelle/Documents/Dev/Frameworks/Parse/1.2.18,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "keyo/keyo-Prefix.pch";
 				INFOPLIST_FILE = "keyo/keyo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "44DB16AD-33E0-44B5-9EDF-F8A07C8F0E5C";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -826,19 +866,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/doman412/Documents/Development/frameworks/Parse/iOS,
 					/Users/gazelle/Documents/Dev/Frameworks/Parse,
 					/Users/gazelle/Documents/Dev/Frameworks/FacebookSDK,
+					"/Users/gazelle/Documents/Dev/Frameworks/Spotify/ios/ios-sdk-master__beta",
+					/Users/gazelle/Documents/Dev/Frameworks/Parse/1.2.18,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "keyo/keyo-Prefix.pch";
 				INFOPLIST_FILE = "keyo/keyo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "44DB16AD-33E0-44B5-9EDF-F8A07C8F0E5C";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -888,7 +930,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		382A87451867A33C00B4ADFA /* Build configuration list for PBXProject "keyo" */ = {
+		382A87451867A33C00B4ADFA /* Build configuration list for PBXProject "Juke" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				382A877D1867A33C00B4ADFA /* Debug */,

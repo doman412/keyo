@@ -33,10 +33,11 @@
 //    NSLog(@"saveButton: %@",self.navigationController);
     self.parentViewController.navigationItem.rightBarButtonItem = self.saveButton;
 //    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:self.saveButton, nil];
+    self.passcodeField.enabled = !self.publicSwitch.isOn;
     
     self.hub = [PFObject objectWithClassName:@"Hub"];
     
-    self.view.backgroundColor = [Theme backgroundBlue];
+    self.view.backgroundColor = [Theme wellWhite];
 }
 
 - (void)didReceiveMemoryWarning
@@ -83,7 +84,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     UITableViewHeaderFooterView *hfView = (id)view;
-    hfView.textLabel.textColor = [Theme orange];
+    hfView.textLabel.textColor = [Theme fontBlack];
 }
 
 - (IBAction)onPublicSwitchChanged:(id)sender
@@ -101,9 +102,9 @@
     self.hub[@"owner"] = [PFUser currentUser];
     self.hub[@"title"] = self.hubNameField.text;
     self.hub[@"passcode"] = self.passcodeField.text;
-    self.hub[@"minRep"] = [NSNumber numberWithInteger: [self.reputationField.text integerValue]];
-    self.hub[@"range"] = [NSNumber numberWithInteger: [self.visibilityField.text integerValue]];
-    self.hub[@"submissions"] = [NSNumber numberWithInteger: [self.submissionRateField.text integerValue]];
+//    self.hub[@"minRep"] = [NSNumber numberWithInteger: [self.reputationField.text integerValue]];
+//    self.hub[@"range"] = [NSNumber numberWithInteger: [self.visibilityField.text integerValue]];
+//    self.hub[@"submissions"] = [NSNumber numberWithInteger: [self.submissionRateField.text integerValue]];
     
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         if(!error){
@@ -171,7 +172,7 @@
         o[@"owner"] = [PFUser currentUser];
         o[@"title"] = [i valueForProperty:MPMediaItemPropertyTitle];
         o[@"artist"] = [i valueForProperty:MPMediaItemPropertyArtist];
-        o[@"pid"] = [NSString stringWithFormat:@"%@", [i valueForProperty:MPMediaItemPropertyPersistentID]];
+        o[@"pId"] = [NSString stringWithFormat:@"%@", [i valueForProperty:MPMediaItemPropertyPersistentID]];
         o[@"url"] = [[i valueForProperty:MPMediaItemPropertyAssetURL] absoluteString];
         
         [self.selectedSongs addObject:o];
@@ -199,5 +200,10 @@
     self.tableView.contentInset = UIEdgeInsetsZero;
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 
 @end

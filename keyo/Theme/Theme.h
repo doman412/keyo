@@ -10,9 +10,15 @@
 
 @interface Theme : NSObject
 
++(void)initTheme;
+
 +(UIColor*)orange;
 
 +(UIColor*)fontWhite;
+
++(UIColor*)fontBlack;
+
++(UIColor*)wellWhite;
 
 +(UIColor*)backgroundBlue;
 

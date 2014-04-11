@@ -38,7 +38,24 @@
     
 //    JSContext *ctx = [JSContext contextWithJSGlobalContextRef:self.webView.mainFrame.globalContext];
     self.webView.delegate = self;
-//    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.youtube.com/embed/_ovdm2yX4MA?feature=oembed"]]];
+    self.webView.allowsInlineMediaPlayback = YES;
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.youtube.com/watch?v=_ovdm2yX4MA"]]];
+//    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://keyo.parseapp.com/yturl?id=_ovdm2yX4MA"]]];
+//    NSString *embedCode = @"<iframe width=\"265\" height=\"140\" src=\"http://www.youtube.com/embed/_ovdm2yX4MA\" frameborder=\"0\" allowfullscreen></iframe>";
+//    [self.webView loadHTMLString:embedCode baseURL:nil];
+    JSContext *ctx = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    ctx[@"console"][@"log"] = ^(JSValue *msg) {
+        NSLog(@"**JS** : %@", msg);
+    };
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"dl" ofType:@"js"];
+    NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@"content: %@",path);
+//    [ctx evaluateScript:content]; 
+    
+    // xcd yt player
+    
+    
 //    NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"];
 //    NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
 //    [self.webView loadHTMLString:htmlString baseURL:nil];
@@ -91,13 +108,20 @@
 //    [mp play];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    NSLog(@"view did disappear: %@",self.presentedViewController);
+}
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    XCDYouTubeVideoPlayerViewController *videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:@"_ovdm2yX4MA"];
+//    [self presentMoviePlayerViewControllerAnimated:videoPlayerViewController];
+//}
+
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
     NSLog(@"web view did finish load");
-    JSContext *ctx = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    ctx[@"console"][@"log"] = ^(JSValue *msg) {
-        NSLog(@"**JS** : %@", msg);
-    };
+    
     // $("a[title='video format: 360p']").attr('href');
 //    [ctx evaluateScript:@"console.log($(\"a[title='video format: 360p']\").attr('href'))"];
 //    [ctx evaluateScript:@"YoutubeVideo('_ovdm2yX4MA', function(video){ \
@@ -130,6 +154,12 @@
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     NSLog(@"web view did fail to load: %@",error);
+}
+
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSLog(@"web view should start with req: %@\nnav type: %d",request, navigationType);
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning

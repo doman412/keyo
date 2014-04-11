@@ -15,6 +15,9 @@
 #import "YouTubeVC.h"
 #import "Theme.h"
 #import "UIImage+Color.h"
+#import "Reachability.h"
+#import "OptionsVC.h"
+#import <DejalActivityView/DejalActivityView.h>
 
 @interface HomeVC ()
 
@@ -26,15 +29,6 @@
 static AVPlayer *player;
 
 @synthesize refreshButton,data;
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (NSUInteger)supportedInterfaceOrientations
 {
@@ -85,28 +79,32 @@ static AVPlayer *player;
     
     self.data = [[NSMutableArray alloc] init];
     
-    self.navigationController.navigationBar.barTintColor = [Theme orange];
-    self.navigationController.navigationBar.tintColor = [Theme fontWhite];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [Theme fontWhite]}];
+    self.navigationController.navigationBar.barTintColor = [Theme backgroundBlue];
+    self.navigationController.navigationBar.tintColor = [Theme wellWhite];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [Theme wellWhite]}];
     
-    self.navigationController.toolbar.barTintColor = [Theme orange];
-    self.navigationController.toolbar.tintColor = [Theme fontWhite];
+    self.navigationController.toolbar.barTintColor = [Theme backgroundBlue];
+    self.navigationController.toolbar.tintColor = [Theme wellWhite];
     
-    self.view.backgroundColor = [Theme backgroundBlue];
+    self.view.backgroundColor = [Theme wellWhite];
     
-    NSLog(@"home vc nav cont: %@",self.navigationController);
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    self.reach = [Reachability reachabilityForInternetConnection];
+    [self.reach startNotifier];
+    
+    
+    self.filterBar.layer.cornerRadius = 2.0;
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationItem.rightBarButtonItem = nil;
     
-    [self onRefreshSites:nil];
+    
     
     [self.navigationController setToolbarHidden:NO];
     
-    
-
     
 }
 
@@ -117,22 +115,35 @@ static AVPlayer *player;
         LoginVC *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
         [self presentViewController:vc animated:YES completion:nil];
     } else {
-        PFQuery *q = [PFQuery queryWithClassName:@"Hub"];
-        [q whereKey:@"owner" equalTo:[PFUser currentUser]];
-        
-        [q findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            if(!error){
-                if(objects.count>0){
-                    self.myHub = [objects firstObject];
-                } else {
-                    self.myHub = nil;
+        if(self.reach.currentReachabilityStatus!=NotReachable){
+            [self onRefreshSites:nil];
+            PFQuery *q = [PFQuery queryWithClassName:@"Hub"];
+            [q whereKey:@"owner" equalTo:[PFUser currentUser]];
+            
+            [q findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if(!error){
+                    if(objects.count>0){
+                        self.myHub = [objects firstObject];
+                    } else {
+                        self.myHub = nil;
+                    }
+                    [self evalHub];
                 }
-                [self evalHub];
-            }
-        }];
+            }];
+        }
+        
     }
     self.navigationController.delegate = self;
-//    [self.navigationController setToolbarHidden:NO];
+    NSLog(@"contraint: %@", self.filterBarY);
+}
+
+- (void) reachabilityChanged:(NSNotification *)note
+{
+	Reachability* curReach = [note object];
+    if(curReach.currentReachabilityStatus==NotReachable){
+        [[[UIAlertView alloc] initWithTitle:@"No Connection" message:@"Lost Internet Connection." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+    }
+    
 }
 
 - (void)evalHub
@@ -209,15 +220,19 @@ static AVPlayer *player;
 
 - (IBAction)onRefreshSites:(id)sender
 {
-    
+    [DejalBezelActivityView activityViewForView:self.navigationController.view withLabel:@"Finding Hubs"];
+    if(self.reach.currentReachabilityStatus==NotReachable){
+        [[[UIAlertView alloc] initWithTitle:@"No Connection" message:@"Need a connection to the internet in order to use this app." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+        [DejalBezelActivityView removeViewAnimated:YES];
+        return;
+    }
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         if (!error) {
             // do something with the new geoPoint
             PFQuery *q = [PFQuery queryWithClassName:@"Hub"];
-            [q whereKey:@"location" nearGeoPoint:geoPoint withinKilometers:0.3];
+//            [q whereKey:@"location" nearGeoPoint:geoPoint withinKilometers:0.3];
             
             [q findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                
                 if(!error){
                     [self.data removeAllObjects];
                     //                [self.data addObjectsFromArray:objects];
@@ -231,6 +246,7 @@ static AVPlayer *player;
                     }
                     [self evalHub];
                     [self.tableView reloadData];
+                    [DejalBezelActivityView removeViewAnimated:YES];
                 } else {
                     NSLog(@"failed refresh");
                 }
@@ -238,6 +254,8 @@ static AVPlayer *player;
             }];
         } else {
             NSLog(@"failed to get gps");
+            [DejalBezelActivityView removeViewAnimated:YES];
+            [[[UIAlertView alloc] initWithTitle:@"GPS Failed" message:@"Failed to get a point of origin to search." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
         }
     }];
     
@@ -266,59 +284,7 @@ static AVPlayer *player;
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([segue.identifier isEqualToString:@"gotoSite"]){
-//        NSLog(@"prepare for segue");
-        UITabBarController *tbc = segue.destinationViewController;
-        UITabBar *tb = tbc.tabBar;
-        NSArray *items = tb.items;
-        /*
-        for (UITabBarItem *tbi in items) {
-//            UIImage *image = tbi.image;
-//            UIImage *sel = tbi.selectedImage;
-//            
-//            
-//            tbi.selectedImage = [sel imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//            tbi.selectedImage = [sel imageWithColor:[Theme backgroundBlue]];
-//            
-//            NSLog(@"selected color: %@", tbi.selectedImage);
-//            NSLog(@"image color: %@", tbi.image);
-            tbi.image = [tbi.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-            
-            UIImage *im = [[UIImage imageNamed:@"spotify-logo-vertical-black-rgb_32"] tintedImageWithColor:[Theme backgroundBlue]];
-            UIImage *sel = [[UIImage imageNamed:@"spotify-logo-vertical-black-rgb_32"] tintedImageWithColor:[Theme fontWhite]];
-            
-            tbi = [[UITabBarItem alloc] initWithTitle:@"" image:im selectedImage:sel];
-            
-            tbi.image = [tbi.image imageWithColor:[Theme backgroundBlue]];
-            
-            
-//            [[UITabBar appearance] setTintColor:[UIColor redColor]];
-//            [[UITabBar appearance] setSelectedImageTintColor:[UIColor greenColor]];
-        }
-        */
-//        [tbc.tabBar setTintColor:[Theme fontWhite]]; // for unselected items that are gray
-//        [tbc.tabBar setSelectedImageTintColor:[Theme lightBlue]]; // for selected items that are green
-        
-//        [[UITabBar appearance] setTintColor:[Theme fontWhite]]; // for unselected items that are gray
-//        [[UITabBar appearance] setSelectedImageTintColor:[Theme lightBlue]]; // for selected items that are green
-        
-//        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [Theme lightBlue], NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
-//        
-//        // set color of unselected text to green
-//        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[Theme fontWhite], NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
-        
-        
-        HubView *hubv = tbc.viewControllers.firstObject;
-        SongListView *slv = [tbc.viewControllers objectAtIndex:1];
-        YouTubeVC *ytvc = [tbc.viewControllers objectAtIndex:2];
-        
-        PFObject *obj = ((SiteObject*)[self.data objectAtIndex:[self.tableView indexPathForSelectedRow].row]).hub;
-//        NSLog(@"hub:: %@",obj);
-        hubv.hub = obj;
-        slv.hub = obj;
-        ytvc.hub = obj;
-        
-    } else if([segue.identifier isEqualToString:@"gotoMyHub"]) {
+    if([segue.identifier isEqualToString:@"gotoMyHub"]) {
         PlayerVC *pvc = segue.destinationViewController;
         
         pvc.hub = self.myHub;
@@ -337,6 +303,8 @@ static AVPlayer *player;
         [self presentViewController:vc animated:YES completion:nil];
     } else if(buttonIndex==1){ // settings
         NSLog(@"goto settings");
+        OptionsVC *vc = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"OptionsNavVC"];
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 
@@ -363,9 +331,9 @@ static AVPlayer *player;
     
     // Configure the cell...
     cell.textLabel.text = obj.title;
-    cell.textLabel.textColor = [Theme fontWhite];
+    cell.textLabel.textColor = [Theme fontBlack];
     
-    cell.backgroundColor = [Theme backgroundBlue];
+    cell.backgroundColor = [Theme wellWhite];
     
     
     UIView *bgColorView = [[UIView alloc] init];
@@ -374,55 +342,65 @@ static AVPlayer *player;
     bgColorView.layer.masksToBounds = YES;
     [cell setSelectedBackgroundView:bgColorView];
     
-    
+//    helo
     
     return cell;
 }
 
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-////    NSLog(@"did select row");
-//}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    
+    PFObject *obj = ((SiteObject*)[self.data objectAtIndex:indexPath.row]).hub;
+    //        NSLog(@"hub:: %@",obj);
+    //        hubv.hub = obj;
+    //        slv.hub = obj;
+    //        ytvc.hub = obj;
+    
+    HubView *hubv = [[UIStoryboard storyboardWithName:@"HubViewSB" bundle:nil] instantiateInitialViewController];
+    hubv.hub = obj;
+    
+    [self.navigationController pushViewController:hubv animated:YES];
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - filter methods
+
+- (IBAction)onFilterButtonPressed:(id)sender
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    if(self.filterBar.hidden){
+        [self showFilterBar];
+    } else {
+        [self hideFilterBar];
+    }
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+- (void)hideFilterBar
 {
+    self.filterBarY.constant = -35;
+    self.tableViewToBottom.constant = 0;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.filterBar.alpha = 0.0;
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.filterBar.hidden = YES;
+    }];
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)showFilterBar
 {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+    self.filterBar.hidden = NO;
+    self.filterBarY.constant = 0;
+    self.tableViewToBottom.constant = 35;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.filterBar.alpha = 1.0;
+        [self.view layoutIfNeeded];
+    }];
+    
 }
-*/
 
+- (IBAction)onFilterSelect:(id)sender
+{
+    NSLog(@"current rect for filterbar: %@", NSStringFromCGRect(self.filterBar.frame));
+}
 
 #pragma mark - Navigation
 

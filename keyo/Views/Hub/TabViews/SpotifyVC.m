@@ -8,6 +8,9 @@
 
 #import "SpotifyVC.h"
 #import "Theme.h"
+#import "DejalActivityView.h"
+#import "UIImage+Size.h"
+
 
 @interface SpotifyVC ()
 
@@ -22,6 +25,17 @@
 //    NSLog(@"spotify nav controller: %@", self.navigationController);
 //    NSLog(@"spotify parent nav controller: %@", self.parentViewController.navigationController);
     
+    // theme the view
+    self.tableView.backgroundColor = [Theme wellWhite];
+    self.searchBar.barTintColor = [Theme backgroundBlue];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.parentViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    self.parentViewController.navigationItem.title = self.navigationItem.title;
 }
 
 - (void)didReceiveMemoryWarning
@@ -121,10 +135,92 @@
 {
     UIViewController *vc = nil;
     switch(self.searchBar.selectedScopeButtonIndex){
-        case 0: // title
+        case 0: { // title
             NSLog(@"did select a track");
+            id spotSong = [self.data objectAtIndex:indexPath.row];
+            
+
+        
+            PFQuery *findSong = [PFQuery queryWithClassName:@"Song"];
+            findSong.limit = 1;
+            [findSong whereKey:@"url" equalTo:[spotSong objectForKey:@"href"]];
+            [findSong findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if(!error){
+                    if(objects.count>0){ // found the song
+                        PFObject *song = [objects objectAtIndex:0];
+                        PFQuery *q = [PFQuery queryWithClassName:@"QueuedSong"];
+                        [q whereKey:@"hub" equalTo:self.hub];
+                        [q whereKey:@"song" equalTo:song];
+                        [q whereKey:@"active" equalTo:@YES];
+                        
+                        [q countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+                            if(!error){
+                                if(number>0) { // song exists in the queue
+                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                                                    message:@"That song is already in the queue."
+                                                                                   delegate:nil
+                                                                          cancelButtonTitle:@"OK"
+                                                                          otherButtonTitles: nil];
+                                    [alert show];
+                                    self.selectedSong = nil;
+                                } else {
+                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm Submission"
+                                                                                    message:@"Are you sure you want to add this song to the queue?"
+                                                                                   delegate:self
+                                                                          cancelButtonTitle:@"No"
+                                                                          otherButtonTitles:@"Yes", nil];
+                                    
+                                    [alert show];
+                                    self.selectedSong = song;
+                                }
+                            }
+                        }];
+                    } else { // could not find the song, create it then create a queuedsong for it
+                        NSArray *artists = [spotSong objectForKey:@"artists"];
+                        NSDictionary *artistObj = [artists objectAtIndex:0];
+                        
+                        
+                        PFObject *song = [PFObject objectWithClassName:@"Song"];
+                        song[@"owner"] = [PFUser currentUser];
+                        song[@"type"] = @"spotify";
+                        song[@"title"] = [spotSong objectForKey:@"name"];
+                        song[@"artist"] = [artistObj objectForKey:@"name"];
+                        song[@"url"] = [spotSong objectForKey:@"href"];
+                        song[@"pId"] =  [[[spotSong objectForKey:@"href"] componentsSeparatedByString:@":"] objectAtIndex:2];
+                        
+                        [song saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                            if(succeeded){
+                                
+                                
+                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm Submission"
+                                                                                message:@"Are you sure you want to add this song to the queue?"
+                                                                               delegate:self
+                                                                      cancelButtonTitle:@"No"
+                                                                      otherButtonTitles:@"Yes", nil];
+                                
+                                [alert show];
+                                self.selectedSong = song;
+                            } else {
+                                NSLog(@"failed to save new song");
+                            }
+                        }];
+                    }
+                }
+            }];
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             break;
-        case 1: // Artist
+        } case 1: { // Artist
             NSLog(@"did select an artist");
             
             vc = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"SpotifyArtistVC"];
@@ -132,9 +228,74 @@
             [self.navigationController pushViewController:vc animated:YES];
             
             break;
-        case 2: // Album
+        } case 2: { // Album
             NSLog(@"did select an album");
             break;
+        }
+    }
+}
+/*
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //    PFObject *obj = [self.data objectAtIndex:indexPath.row];
+    
+    PFQuery *q = [PFQuery queryWithClassName:@"QueuedSong"];
+    [q whereKey:@"song" equalTo:[self.data objectAtIndex:indexPath.row]];
+    [q whereKey:@"active" equalTo:@YES];
+    
+    [q countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        if(!error){
+            if(number>0) { // song exists in the queue
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                                message:@"That song is already in the queue."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles: nil];
+                [alert show];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm Submission"
+                                                                message:@"Are you sure you want to add this song to the queue?"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"No"
+                                                      otherButtonTitles:@"Yes", nil];
+                
+                [alert show];
+            }
+        }
+    }];
+}
+*/
+#pragma mark - Alert view delegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex==1){ // yes
+        
+        PFObject *song = self.selectedSong;
+        PFObject *queuedSong = [PFObject objectWithClassName:@"QueuedSong"];
+        
+        queuedSong[@"song"] = song;
+        queuedSong[@"hub"] = self.hub;
+        queuedSong[@"addedBy"] = [PFUser currentUser];
+        queuedSong[@"points"] = @1;
+        queuedSong[@"active"] = @YES;
+        
+        [queuedSong saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if(!succeeded){
+                NSLog(@"failed to save queued song");
+            }
+        }];
+        
+        //        obj[@"queue"] = self.hub[@"queue"];
+        //        obj[@"addedToQueueBy"] = [PFUser currentUser];
+        //        obj[@"dateAddedToQueue"] = [NSDate date];
+        //        obj[@"points"] = @1;
+        
+        //        [obj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        //            if(succeeded){
+        //                [self loadSongs];
+        //            }
+        //        }];
     }
 }
 
@@ -142,38 +303,42 @@
 
 -(void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
-//    [self.data removeAllObjects];
-//    [self.tableView reloadData];
+    [self.data removeAllObjects];
+    [self.tableView reloadData];
+//    [self searchBarSearchButtonClicked:searchBar];
 }
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     self.searchBar.showsCancelButton = YES;
-    self.searchBar.showsScopeBar = YES;
+//    self.searchBar.showsScopeBar = YES;
 }
 
--(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
-    self.searchBar.showsCancelButton = NO;
-    self.searchBar.showsScopeBar = NO;
-    [self.searchBar resignFirstResponder];
-}
+//-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+//{
+////    self.searchBar.showsCancelButton = NO;
+////    self.searchBar.showsScopeBar = NO;
+////    [self.searchBar resignFirstResponder];
+//    [self hideSearchBar];
+//}
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    self.searchBar.showsCancelButton = NO;
-    self.searchBar.showsScopeBar = NO;
-    [self.searchBar resignFirstResponder];
+//    self.searchBar.showsCancelButton = NO;
+//    self.searchBar.showsScopeBar = NO;
+//    [self.searchBar resignFirstResponder];
+    [self hideSearchBar];
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     NSLog(@"search spotify for: %@", self.searchBar.text);
+    [self hideSearchBar];
+    [DejalBezelActivityView activityViewForView:self.view];
     
-    
-    self.searchBar.showsCancelButton = NO;
-    self.searchBar.showsScopeBar = NO;
-    [self.searchBar resignFirstResponder];
+//    self.searchBar.showsCancelButton = NO;
+//    self.searchBar.showsScopeBar = NO;
+//    [self.searchBar resignFirstResponder];
     
     
     NSString *baseUrl = @"http://ws.spotify.com/search";
@@ -226,64 +391,60 @@
         [self.tableView reloadData];
         [self.tableView setContentOffset:CGPointMake(0.0f, -(self.tableView.contentInset.top)) animated:YES];
         
+        [DejalBezelActivityView removeViewAnimated:YES];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        [DejalBezelActivityView removeViewAnimated:YES];
     }];
     
     
     
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (IBAction)onSearch:(id)sender
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if(self.searchBar.hidden){
+        [self showSearchBar];
+    } else {
+        [self hideSearchBar];
+    }
 }
 
- */
+- (void)hideSearchBar
+{
+    
+    
+    if(self.searchBar.hidden==NO){
+        CGRect newFrameSize = CGRectMake(0, self.tableView.frame.origin.y-88, self.tableView.frame.size.width, self.tableView.frame.size.height+88);
+        
+        [self.searchBar resignFirstResponder];
+        [UIView animateWithDuration:0.4 animations:^{
+            self.tableView.frame = newFrameSize;
+            self.searchBar.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            self.searchBar.hidden = YES;
+        }];
+    }
+    
+}
+
+- (void)showSearchBar
+{
+    
+    if(self.searchBar.hidden==YES){
+        CGRect newFrameSize = CGRectMake(0, self.tableView.frame.origin.y+88, self.tableView.frame.size.width, self.tableView.frame.size.height-88);
+        
+        self.searchBar.hidden = NO;
+        [UIView animateWithDuration:0.4 animations:^{
+            self.tableView.frame = newFrameSize;
+            self.searchBar.alpha = 1.0;
+        } completion:^(BOOL finished) {
+            [self.searchBar becomeFirstResponder];
+        }];
+    }
+    
+    
+}
 
 @end

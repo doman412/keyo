@@ -7,6 +7,8 @@
 //
 
 #import "QueueCell.h"
+#import "Theme.h"
+#import "UIImage+Color.h"
 
 @implementation QueueCell{
     NSInteger points;
@@ -51,22 +53,105 @@
     
 }
 
-- (IBAction)onRateUp:(id)sender
+-(void)evalScore
 {
-    points++;
     
-    self.pointsLabel.text = [NSString stringWithFormat:@"%li",(long)points];
-    self.queuedSong[@"points"] = [NSNumber numberWithInteger:points];
-    [self.queuedSong saveInBackground];
 }
 
-- (IBAction)onRateDown:(id)sender
+- (IBAction)onRateUp:(UIButton*)sender
 {
-    points--;
+//    points++;
+//    
+//    self.pointsLabel.text = [NSString stringWithFormat:@"%li",(long)points];
+//    self.queuedSong[@"points"] = [NSNumber numberWithInteger:points];
     
-    self.pointsLabel.text = [NSString stringWithFormat:@"%li",(long)points];
-    self.queuedSong[@"points"] = [NSNumber numberWithInteger:points];
-    [self.queuedSong saveInBackground];
+    /*
+     var userId = request.params.userId;
+     var queuedSongId = request.params.queuedSongId;
+     var vote = request.params.vote;
+     */
+    
+    NSArray *ups = self.queuedSong[@"ups"];
+    
+    
+    if(![ups containsObject:[PFUser currentUser].objectId]){
+        [self.queuedSong addObject:[PFUser currentUser].objectId forKey:@"ups"];
+        [self.queuedSong removeObject:[PFUser currentUser].objectId forKey:@"downs"];
+//        self.upButton.imageView.image = [self.upButton.imageView.image imageWithColor:[UIColor greenColor]];
+//        self.downButton.imageView.image = [self.downButton.imageView.image imageWithColor:[Theme fontBlack]];
+//        [PFCloud callFunctionInBackground:@"vote"
+//                           withParameters:@{@"userId": [PFUser currentUser].objectId, @"queuedSongId":self.queuedSong.objectId, @"vote": @"up"}
+//                                    block:^(id object, NSError *error) {
+//                                        if(!error){
+////                                            NSLog(@"saved vote up");
+//                                            [self.queuedSong fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//                                                if(!error){
+//                                                    NSLog(@"refreshed queued song");
+//                                                    [self.tableView reloadData];
+//                                                } else {
+//                                                    NSLog(@"failed to refresh queued song");
+//                                                }
+//                                            }];
+//                                        } else {
+//                                            NSLog(@"failed to save vote up");
+//                                        }
+//                                    }];
+        [self.queuedSong saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if(!error){
+                [self.tableView reloadData];
+            } else {
+                NSLog(@"failed to save queued song");
+            }
+        }];
+        
+        
+
+    }
+    
+}
+
+- (IBAction)onRateDown:(UIButton*)sender
+{
+//    points--;
+//    
+//    self.pointsLabel.text = [NSString stringWithFormat:@"%li",(long)points];
+//    self.queuedSong[@"points"] = [NSNumber numberWithInteger:points];
+    
+    NSArray *downs = self.queuedSong[@"downs"];
+    
+    if(![downs containsObject:[PFUser currentUser].objectId]){
+        [self.queuedSong addUniqueObject:[PFUser currentUser].objectId forKey:@"downs"];
+        [self.queuedSong removeObject:[PFUser currentUser].objectId forKey:@"ups"];
+//        self.upButton.imageView.image = [self.upButton.imageView.image imageWithColor:[Theme fontBlack]];
+//        self.downButton.imageView.image = [self.downButton.imageView.image imageWithColor:[UIColor redColor]];
+//        [PFCloud callFunctionInBackground:@"vote"
+//                           withParameters:@{@"userId": [PFUser currentUser].objectId, @"queuedSongId":self.queuedSong.objectId, @"vote": @"down"}
+//                                    block:^(id object, NSError *error) {
+//                                        if(!error){
+////                                            NSLog(@"saved vote down");
+//                                            [self.queuedSong fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//                                                if(!error){
+////                                                    NSLog(@"refreshed queued song");
+//                                                    [self.tableView reloadData];
+//                                                } else {
+//                                                    NSLog(@"failed to refresh queued song");
+//                                                }
+//                                            }];
+//                                        } else {
+//                                            NSLog(@"failed to save vote down");
+//                                        }
+//                                    }];
+        [self.queuedSong saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if(!error){
+                [self.tableView reloadData];
+            } else {
+                NSLog(@"failed to save queued song");
+            }
+        }];
+        
+
+    }
+    
 }
 
 @end
