@@ -4,4 +4,5 @@ pod "DejalActivityView"
 pod "XCDYouTubeVideoPlayerViewController"
 pod 'CocoaSoundCloudAPI'
 pod 'CocoaSoundCloudUI'
+pod 'WYPopoverController', '~> 0.2.0'
 

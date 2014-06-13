@@ -35,7 +35,7 @@
     [[UISegmentedControl appearance] setBackgroundColor:[Theme backgroundBlue]];
     [[UISegmentedControl appearance] setTintColor:[Theme lightBlue]];
     [[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                             [Theme fontWhite], NSForegroundColorAttributeName,nil ] forState:UIControlStateSelected];
+                                                             [Theme fontBlack], NSForegroundColorAttributeName,nil ] forState:UIControlStateSelected];
     [[UISegmentedControl appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                              [Theme fontBlack], NSForegroundColorAttributeName,nil ] forState:UIControlStateNormal];
 }

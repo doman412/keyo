@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 
+@class Song;
+
 @interface SongCellObject : NSObject
 
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *artist;
-@property (strong, nonatomic) PFObject *song;
+@property (strong, nonatomic) Song *song;
 
 
 @end

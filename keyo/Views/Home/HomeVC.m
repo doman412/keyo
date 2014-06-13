@@ -18,12 +18,22 @@
 #import "Reachability.h"
 #import "OptionsVC.h"
 #import <DejalActivityView/DejalActivityView.h>
+#import "SignUpVC.h"
+
+#import "Hub.h"
+#import "Song.h"
+#import "QueuedSong.h"
+
+#import "UIImage+Color.h"
 
 @interface HomeVC ()
 
 @end
 
-@implementation HomeVC
+@implementation HomeVC{
+    BOOL foundHubs;
+    NSString *filterType;
+}
 
 
 static AVPlayer *player;
@@ -83,8 +93,14 @@ static AVPlayer *player;
     self.navigationController.navigationBar.tintColor = [Theme wellWhite];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [Theme wellWhite]}];
     
-    self.navigationController.toolbar.barTintColor = [Theme backgroundBlue];
-    self.navigationController.toolbar.tintColor = [Theme wellWhite];
+    self.toolbar.barTintColor = [Theme backgroundBlue];
+    self.toolbar.tintColor = [Theme wellWhite];
+//    CGRect newFrame = self.toolbar.frame;
+//    newFrame.size.height = 32;
+//    [self.toolbar setFrame:newFrame];
+//    [self.view layoutIfNeeded];
+//    NSLog(@"new Frame: %@",NSStringFromCGRect(self.toolbar.frame));
+    
     
     self.view.backgroundColor = [Theme wellWhite];
     
@@ -92,8 +108,12 @@ static AVPlayer *player;
     self.reach = [Reachability reachabilityForInternetConnection];
     [self.reach startNotifier];
     
+    // default local vars
+    foundHubs = NO;
+    filterType = @"All";
     
     self.filterBar.layer.cornerRadius = 2.0;
+    
     
 }
 
@@ -101,11 +121,11 @@ static AVPlayer *player;
 {
     self.navigationItem.rightBarButtonItem = nil;
     
+//    [self.navigationController setToolbarHidden:NO];
     
     
-    [self.navigationController setToolbarHidden:NO];
     
-    
+    [self updateTitle];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -116,9 +136,13 @@ static AVPlayer *player;
         [self presentViewController:vc animated:YES completion:nil];
     } else {
         if(self.reach.currentReachabilityStatus!=NotReachable){
-            [self onRefreshSites:nil];
-            PFQuery *q = [PFQuery queryWithClassName:@"Hub"];
+            
+            if(!foundHubs)
+                [self onRefreshSites:nil];
+            
+            PFQuery *q = [Hub query];
             [q whereKey:@"owner" equalTo:[PFUser currentUser]];
+            [q whereKey:@"type" equalTo:@"ios"];
             
             [q findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 if(!error){
@@ -134,8 +158,18 @@ static AVPlayer *player;
         
     }
     self.navigationController.delegate = self;
-    NSLog(@"contraint: %@", self.filterBarY);
+//    NSLog(@"constraint: %@", self.filterBarY);
 }
+
+//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+//{
+//    NSLog(@"1 toolbar height: %f",self.toolbar.frame.size.height);
+//}
+//
+//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+//{
+//    NSLog(@"2 toolbar height: %f",self.toolbar.frame.size.height);
+//}
 
 - (void) reachabilityChanged:(NSNotification *)note
 {
@@ -160,37 +194,37 @@ static AVPlayer *player;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+/*
 - (IBAction)onAddSite:(id)sender
 {
     NSLog(@"onAddSite");
     [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
         if (!error) {
             // do something with the new geoPoint
-            PFObject *h = [PFObject objectWithClassName:@"Hub"];
-            h[@"title"] = @"home";
-            h[@"location"] = geoPoint;
-            h[@"owner"] = [PFUser currentUser];
+            Hub *h = [Hub object];
+            h.title = @"home";
+            h.location = geoPoint;
+            h.owner = [PFUser currentUser];
             
-            PFObject *o1 = [PFObject objectWithClassName:@"Song"];
+            PFObject *o1 = [Song object];
             o1[@"title"] = @"song 1";
             
-            PFObject *o2 = [PFObject objectWithClassName:@"Song"];
+            PFObject *o2 = [Song object];
             o2[@"title"] = @"song 2";
             
-            PFObject *o3 = [PFObject objectWithClassName:@"Song"];
+            PFObject *o3 = [Song object];
             o3[@"title"] = @"song 3";
             
-            PFObject *o4 = [PFObject objectWithClassName:@"Song"];
+            PFObject *o4 = [Song object];
             o4[@"title"] = @"song 4";
             
-            PFObject *o5 = [PFObject objectWithClassName:@"Song"];
+            PFObject *o5 = [Song object];
             o5[@"title"] = @"song 5";
             
-            PFObject *o6 = [PFObject objectWithClassName:@"Song"];
+            PFObject *o6 = [Song object];
             o6[@"title"] = @"song 6";
             
-            PFObject *q = [PFObject objectWithClassName:@"Queue"];
+            PFObject *q = [Song object];
             
             h[@"queue"] = q;
             
@@ -217,7 +251,7 @@ static AVPlayer *player;
         }
     }];
 }
-
+*/
 - (IBAction)onRefreshSites:(id)sender
 {
     [DejalBezelActivityView activityViewForView:self.navigationController.view withLabel:@"Finding Hubs"];
@@ -226,47 +260,81 @@ static AVPlayer *player;
         [DejalBezelActivityView removeViewAnimated:YES];
         return;
     }
-    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-        if (!error) {
-            // do something with the new geoPoint
-            PFQuery *q = [PFQuery queryWithClassName:@"Hub"];
-//            [q whereKey:@"location" nearGeoPoint:geoPoint withinKilometers:0.3];
-            
-            [q findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                if(!error){
-                    [self.data removeAllObjects];
-                    //                [self.data addObjectsFromArray:objects];
-//                    NSLog(@"got sites %lu",(unsigned long)objects.count);
-                    for(PFObject *o in objects){
-                        SiteObject *so = [[SiteObject alloc] init];
-                        so.title = o[@"title"];
-                        so.hub = o;
-//                        NSLog(@"site title: %@",so.title);
-                        [self.data addObject:so];
-                    }
-                    [self evalHub];
-                    [self.tableView reloadData];
-                    [DejalBezelActivityView removeViewAnimated:YES];
-                } else {
-                    NSLog(@"failed refresh");
-                }
-                
-            }];
-        } else {
-            NSLog(@"failed to get gps");
+    
+    PFArrayResultBlock block = ^(NSArray *objects, NSError *error) {
+        if(!error){
+            [self.data removeAllObjects];
+            //                [self.data addObjectsFromArray:objects];
+            //                    NSLog(@"got sites %lu",(unsigned long)objects.count);
+            for(Hub *o in objects){
+                SiteObject *so = [[SiteObject alloc] init];
+                so.title = o.title;
+                so.hub = o;
+                //                        NSLog(@"site title: %@",so.title);
+                [self.data addObject:so];
+            }
+            [self evalHub];
+            [self.tableView reloadData];
             [DejalBezelActivityView removeViewAnimated:YES];
-            [[[UIAlertView alloc] initWithTitle:@"GPS Failed" message:@"Failed to get a point of origin to search." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+        } else {
+            NSLog(@"failed refresh");
+            [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Sorry, an error occured trying to find hubs." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
         }
-    }];
+        foundHubs = YES;
+    };
+    
+    PFQuery *q = [Hub query];
+    
+    switch(self.filterBar.selectedSegmentIndex){
+        // all
+        case 0:{
+            [q findObjectsInBackgroundWithBlock:block];
+            break;
+        }
+        // local
+        case 1:{
+            [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+                if (!error) {
+                    // do something with the new geoPoint
+                    
+                    [q whereKey:@"location" nearGeoPoint:geoPoint withinKilometers:0.3];
+                    
+                    [q findObjectsInBackgroundWithBlock:block];
+                } else {
+                    NSLog(@"failed to get gps");
+                    [DejalBezelActivityView removeViewAnimated:YES];
+                    [[[UIAlertView alloc] initWithTitle:@"GPS Failed" message:@"Failed to get a point of origin to search." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+                }
+            }];
+            break;
+        }
+        // open
+        case 2:{
+            [q whereKey:@"passcode" equalTo:@""];
+            
+            PFQuery *open = [Hub query];
+            [open whereKey:@"allowedUsers" equalTo:[PFUser currentUser]];
+            
+            [[PFQuery orQueryWithSubqueries:@[q,open]] findObjectsInBackgroundWithBlock:block];
+            break;
+        }
+    }
+    
+    
     
 }
 
 - (IBAction)onOptions:(id)sender
 {
     NSString *actionSheetTitle = @"Options"; //Action Sheet Title
-    NSString *logout = @"Logout"; //Action Sheet Button Titles
+    NSString *logout = nil;
+    if ([PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
+        logout = @"Sign Up"; //Action Sheet Button Titles
+    } else {
+        logout = @"Logout"; //Action Sheet Button Titles
+    }
     NSString *settings = @"Settings";
-    NSString *cancelTitle = @"Cancel Button";
+    NSString *cancelTitle = @"Close";
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:actionSheetTitle
                                   delegate:self
@@ -274,12 +342,28 @@ static AVPlayer *player;
                                   destructiveButtonTitle:logout
                                   otherButtonTitles:settings, nil];
     
-    [actionSheet showFromToolbar:self.navigationController.toolbar];
+    
+    
+    [actionSheet showFromToolbar:self.toolbar];
 }
 
 - (IBAction)onMyHub:(id)sender
 {
     NSLog(@"on my hub");
+}
+
+#pragma mark - segue methods
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if([identifier isEqualToString:@"gotoStartHub"]) {
+        if([PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]){
+            [[[UIAlertView alloc] initWithTitle:@"Anonymous User" message:@"You are currently using Juke anonymously. Sign Up to create Jukes." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+            return NO;
+        }
+        foundHubs = NO;
+    }
+    return YES;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -288,6 +372,8 @@ static AVPlayer *player;
         PlayerVC *pvc = segue.destinationViewController;
         
         pvc.hub = self.myHub;
+        
+        foundHubs = NO;
     }
     
 }
@@ -298,9 +384,16 @@ static AVPlayer *player;
 {
 //    NSLog(@"action sheet clicked: %lu",buttonIndex);
     if(buttonIndex==0){ // logout
-        [PFUser logOut];
-        LoginVC *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
-        [self presentViewController:vc animated:YES completion:nil];
+        if ([PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
+            
+            SignUpVC *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"SignUpVC"];
+            [self presentViewController:vc animated:YES completion:nil];
+        } else {
+            [PFUser logOut];
+            LoginVC *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+        
     } else if(buttonIndex==1){ // settings
         NSLog(@"goto settings");
         OptionsVC *vc = [[UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"OptionsNavVC"];
@@ -329,11 +422,26 @@ static AVPlayer *player;
     
     SiteObject *obj = [self.data objectAtIndex:indexPath.row];
     
+    // get cell components
+    UILabel *titleLabel = (id)[cell viewWithTag:1];
+    UIImageView *lockImage = (id)[cell viewWithTag:2];
+    
     // Configure the cell...
-    cell.textLabel.text = obj.title;
-    cell.textLabel.textColor = [Theme fontBlack];
+    titleLabel.text = obj.title;
+    titleLabel.textColor = [Theme fontBlack];
     
     cell.backgroundColor = [Theme wellWhite];
+    
+    if(obj.hub.passcode && ![obj.hub.passcode isEqualToString:@""]){
+        lockImage.hidden = NO;
+        if([obj.hub currentUserIsAllowed]){
+            lockImage.image = [lockImage.image tintedImageWithColor:[UIColor greenColor]];
+        } else {
+            lockImage.image = [lockImage.image tintedImageWithColor:[UIColor blackColor]];
+        }
+    } else {
+        lockImage.hidden = YES;
+    }
     
     
     UIView *bgColorView = [[UIView alloc] init];
@@ -350,7 +458,7 @@ static AVPlayer *player;
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    PFObject *obj = ((SiteObject*)[self.data objectAtIndex:indexPath.row]).hub;
+    Hub *obj = (id)((SiteObject*)[self.data objectAtIndex:indexPath.row]).hub;
     //        NSLog(@"hub:: %@",obj);
     //        hubv.hub = obj;
     //        slv.hub = obj;
@@ -359,7 +467,24 @@ static AVPlayer *player;
     HubView *hubv = [[UIStoryboard storyboardWithName:@"HubViewSB" bundle:nil] instantiateInitialViewController];
     hubv.hub = obj;
     
-    [self.navigationController pushViewController:hubv animated:YES];
+    if(obj.hasPasscode){
+        NSLog(@"hub has a password");
+        if( [obj currentUserIsAllowed] ){
+            NSLog(@"user is allowed");
+            [self.navigationController pushViewController:hubv animated:YES];
+        } else {
+            self.passcodeAlert = [[UIAlertView alloc] initWithTitle:@"Locked!" message:@"Please enter the passcode to continue:" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+            self.passcodeAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            UITextField * alertTextField = [self.passcodeAlert textFieldAtIndex:0];
+            alertTextField.keyboardType = UIKeyboardTypeDefault;
+            alertTextField.placeholder = @"passcode";
+            [self.passcodeAlert show];
+        }
+    } else {
+        [self.navigationController pushViewController:hubv animated:YES];
+    }
+    
+    
 }
 
 #pragma mark - filter methods
@@ -375,7 +500,7 @@ static AVPlayer *player;
 
 - (void)hideFilterBar
 {
-    self.filterBarY.constant = -35;
+    self.filterBarY.constant = 0;
     self.tableViewToBottom.constant = 0;
     [UIView animateWithDuration:0.3 animations:^{
         self.filterBar.alpha = 0.0;
@@ -388,7 +513,7 @@ static AVPlayer *player;
 - (void)showFilterBar
 {
     self.filterBar.hidden = NO;
-    self.filterBarY.constant = 0;
+    self.filterBarY.constant = 35;
     self.tableViewToBottom.constant = 35;
     [UIView animateWithDuration:0.3 animations:^{
         self.filterBar.alpha = 1.0;
@@ -399,7 +524,17 @@ static AVPlayer *player;
 
 - (IBAction)onFilterSelect:(id)sender
 {
-    NSLog(@"current rect for filterbar: %@", NSStringFromCGRect(self.filterBar.frame));
+//    NSLog(@"current rect for filterbar: %@", NSStringFromCGRect(self.filterBar.frame));
+    NSString *title = [self.filterBar titleForSegmentAtIndex: self.filterBar.selectedSegmentIndex];
+    
+    filterType = title;
+    [self updateTitle];
+    [self onRefreshSites:nil];
+}
+
+- (void)updateTitle
+{
+    self.title = [NSString stringWithFormat:@"Jukes: %@",filterType];
 }
 
 #pragma mark - Navigation
@@ -408,6 +543,36 @@ static AVPlayer *player;
 {
     
 }
+
+#pragma mark - alertView dialog delegate methods
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(alertView == self.passcodeAlert){
+        NSString *passcode = [[alertView textFieldAtIndex:0] text];
+        NSLog(@"Entered: %@",passcode);
+        
+        Hub *obj = (id)((SiteObject*)[self.data objectAtIndex:self.tableView.indexPathForSelectedRow.row]).hub;
+        
+        if(obj.passcode && [obj.passcode isEqualToString:passcode]){
+            HubView *hubv = [[UIStoryboard storyboardWithName:@"HubViewSB" bundle:nil] instantiateInitialViewController];
+            hubv.hub = obj;
+            [obj.allowedUsers addObject:[PFUser currentUser]];
+            [obj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if(!succeeded){
+                    NSLog(@"failed to save updated hub with user");
+                }
+                [self.navigationController pushViewController:hubv animated:YES];
+            }];
+            
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"Wrong!" message:@"That is the wrong passcode" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+        }
+        
+        
+    }
+}
+
 
 
 @end

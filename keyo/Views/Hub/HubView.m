@@ -16,8 +16,15 @@
 #import "UIImage+Color.h"
 #import "Theme.h"
 
-@interface HubView (){
+#import "Hub.h"
+#import "Song.h"
+#import "QueuedSong.h"
+
+#import <WYPopoverController/WYPopoverController.h>
+
+@interface HubView () <WYPopoverControllerDelegate> {
     BOOL queryIsRunning;
+    WYPopoverController *infoPop;
 }
 
 @end
@@ -60,9 +67,13 @@
     self.tableView.backgroundColor = [Theme wellWhite];
     
     self.navigationItem.title = self.hub[@"title"];
+//    self.titleLabel.text = self.hub[@"title"];
+//    self.titleLabel.textColor = [Theme fontWhite];
     
-    self.tabBarItem.title = @"Queue";
-//    self.tabBarItem.im
+    // right bar buttons with info button
+//	self.infoBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.infoButton];
+//	[self.navigationItem setRightBarButtonItems:@[self.addButton,self.fixedSpace,self.infoBarButton]];
+    
     
     [self.refreshControl addTarget:self action:@selector(onRefreshSongs) forControlEvents:UIControlEventValueChanged];
 }
@@ -95,29 +106,29 @@
         // song list view
         SongListView *slv = [tbc.viewControllers objectAtIndex:0];
         slv.hub = self.hub;
-        UIImage *simage = [UIImage imageNamed:@"musical-512" andSize:CGSizeMake(32, 32)];
-//        [simage tintedImageWithColor:[Theme lightBlue]];
-        slv.tabBarItem.image = simage;
-        slv.tabBarItem.selectedImage = simage;
+//        UIImage *simage = [UIImage imageNamed:@"musical-512" andSize:CGSizeMake(32, 32)];
+////        [simage tintedImageWithColor:[Theme lightBlue]];
+//        slv.tabBarItem.image = simage;
+//        slv.tabBarItem.selectedImage = simage;
         
         
         // youtube vc
         YouTubeVC *ytvc = [tbc.viewControllers objectAtIndex:1];
         ytvc.hub = self.hub;
-        UIImage *ytimage = [UIImage imageNamed:@"youtube-512" andSize:CGSizeMake(32, 32)];
+//        UIImage *ytimage = [UIImage imageNamed:@"youtube-512" andSize:CGSizeMake(32, 32)];
 //        [ytimage imageWithColor:[UIColor redColor]];
-        ytvc.tabBarItem.image = ytimage;
-        ytvc.tabBarItem.selectedImage = ytimage;
+//        ytvc.tabBarItem.image = ytimage;
+//        ytvc.tabBarItem.selectedImage = ytimage;
         
         
         // spotify vc
         SpotifyVC *spotvc = [tbc.viewControllers objectAtIndex:2];
         spotvc.hub = self.hub;
-        UIImage *spotimage = [UIImage imageNamed:@"spotify-logo-vertical-black-rgb" andSize:CGSizeMake(32, 41)];
-//        [spotimage tintedImageWithColor:[Theme lightBlue]];
-        spotvc.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
-        spotvc.tabBarItem.image = spotimage;
-        spotvc.tabBarItem.selectedImage = spotimage;
+//        UIImage *spotimage = [UIImage imageNamed:@"spotify-logo-vertical-black-rgb" andSize:CGSizeMake(32, 41)];
+////        [spotimage tintedImageWithColor:[Theme lightBlue]];
+//        spotvc.tabBarItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+//        spotvc.tabBarItem.image = spotimage;
+//        spotvc.tabBarItem.selectedImage = spotimage;
         
         
         
@@ -151,11 +162,17 @@
 {
 //    NSLog(@"onSongsLoaded: %@, err: %@",objects,err);
     if(!err){
-        self.data = [NSMutableArray arrayWithArray:objects];
-        // remove the first object in the queue as its the now playing item
-//        [self.data removeObjectAtIndex:0];
+        
+        if(objects.count==0){ // there are no songs in the playlist
+            // add a dummy object to represent the NoSongsCell
+            self.data = [NSMutableArray arrayWithObjects:[QueuedSong object], nil];
+        } else {
+            self.data = [NSMutableArray arrayWithArray:objects];
+            // remove the first object in the queue as its the now playing item
+            //        [self.data removeObjectAtIndex:0];
+            //        self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%li",(unsigned long)objects.count];
+        }
         [self.tableView reloadData];
-//        self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%li",(unsigned long)objects.count];
     } else {
         NSLog(@"failed to get songs");
     }
@@ -163,6 +180,31 @@
         [self.refreshControl endRefreshing];
     }
     queryIsRunning = NO;
+}
+
+- (IBAction)onInfo:(UIButton *)sender
+{
+    NSLog(@"on info button");
+    UIViewController *controller = [[UIStoryboard storyboardWithName:@"HubViewSB" bundle:nil] instantiateViewControllerWithIdentifier:@"InfoPop"];
+    
+//    [[WYPopoverBackgroundView appearance] setArrowHeight:20];
+    infoPop = [[WYPopoverController alloc] initWithContentViewController:controller];
+    infoPop.delegate = self;
+    infoPop.popoverContentSize = CGSizeMake(300, 200);
+    [infoPop presentPopoverFromBarButtonItem:self.infoBarButton permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
+}
+
+#pragma mark - wypopovercontroller delegate methods
+
+- (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)controller
+{
+    return YES;
+}
+
+- (void)popoverControllerDidDismissPopover:(WYPopoverController *)controller
+{
+    infoPop.delegate = nil;
+    infoPop = nil;
 }
 
 #pragma mark - Table view data source
@@ -189,76 +231,86 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PFObject *queuedSong = [self.data objectAtIndex:indexPath.row];
-    PFObject *obj = queuedSong[@"song"];
-    NSArray *ups = (id)queuedSong[@"ups"];
-    NSArray *downs = (id)queuedSong[@"downs"];
+    QueuedSong *queuedSong = [self.data objectAtIndex:indexPath.row];
+    Song *obj = queuedSong.song;
+    NSArray *ups = queuedSong.ups;
+    NSArray *downs = queuedSong.downs;
+    
+    UITableViewCell *returnCell = nil;
     
     
-    // now playing cell
-    if(indexPath.row==0){
-        UITableViewCell *cell = (id)[tableView dequeueReusableCellWithIdentifier:@"NowPlayingCell" forIndexPath:indexPath];
+    if(queuedSong.objectId){
+        // now playing cell
+        if(indexPath.row==0){
+            UITableViewCell *cell = (id)[tableView dequeueReusableCellWithIdentifier:@"NowPlayingCell" forIndexPath:indexPath];
+            
+            ((UILabel*)[cell viewWithTag:1]).text = obj.title;
+            ((UILabel*)[cell viewWithTag:2]).text = obj.artist;
+            
+            return cell;
+        }
         
-        ((UILabel*)[cell viewWithTag:1]).text = obj[@"title"];
-        ((UILabel*)[cell viewWithTag:2]).text = obj[@"artist"];
         
-        return cell;
-    }
-    
-    
-    NSString *CellIdentifier = @"QueueCell";
-    QueueCell *cell = (id)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    cell.tableView = tableView;
-    cell.queuedSong = queuedSong;
-//    [cell setPoints: [queuedSong[@"score"] integerValue]];
-    cell.songTitle.text = obj[@"title"];
-    cell.artistName.text = obj[@"artist"];
-    
-    
-    cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (ups.count-downs.count)];
-    
-    // theme the cell
-    cell.backgroundColor = [Theme wellWhite];
-    cell.selectedBackgroundView.backgroundColor = [Theme lightBlue];
-    cell.songTitle.textColor = [Theme fontBlack];
-    cell.artistName.textColor = [Theme fontBlack];
-    cell.pointsLabel.textColor = [Theme fontBlack];
-    
-//    cell.downButton.imageView.image = [cell.downButton.imageView.image imageWithColor:[Theme fontBlack]];
-    
-//    UIImage *up = [[UIImage imageNamed:@"up-32-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//    cell.upButton.imageView.image = up;
-//    cell.upButton.adjustsImageWhenHighlighted = NO;
-//    cell.upButton.adjustsImageWhenDisabled = NO;
-//    UIImage *down = [[UIImage imageNamed:@"down-32-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//    cell.downButton.imageView.image = down;
-//    cell.downButton.adjustsImageWhenHighlighted = NO;
-//    cell.downButton.adjustsImageWhenDisabled = NO;
-    
-    // check if the user voted on object
-    if([ups containsObject:[PFUser currentUser].objectId]){
-        // user voted up
-//        NSLog(@"user voted up : %@",cell.songTitle.text);
-
+        NSString *CellIdentifier = @"QueueCell";
+        QueueCell *cell = (id)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
-        cell.upButton.tintColor = [UIColor greenColor];
-        cell.downButton.tintColor = [Theme fontBlack];
+        // Configure the cell...
+        cell.tableView = tableView;
+        cell.queuedSong = queuedSong;
+        //    [cell setPoints: [queuedSong[@"score"] integerValue]];
+        cell.songTitle.text = obj.title;
+        cell.artistName.text = obj.artist;
         
-    } else if([downs containsObject:[PFUser currentUser].objectId]){
-        // user voted down
-//        NSLog(@"user voted down : %@",cell.songTitle.text);
         
-        cell.upButton.tintColor = [Theme fontBlack];
-        cell.downButton.tintColor = [UIColor redColor];
+        cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (ups.count-downs.count)];
         
+        // theme the cell
+        cell.backgroundColor = [Theme wellWhite];
+        cell.selectedBackgroundView.backgroundColor = [Theme lightBlue];
+        cell.songTitle.textColor = [Theme fontBlack];
+        cell.artistName.textColor = [Theme fontBlack];
+        cell.pointsLabel.textColor = [Theme fontBlack];
+        
+        //    cell.downButton.imageView.image = [cell.downButton.imageView.image imageWithColor:[Theme fontBlack]];
+        
+        //    UIImage *up = [[UIImage imageNamed:@"up-32-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        //    cell.upButton.imageView.image = up;
+        //    cell.upButton.adjustsImageWhenHighlighted = NO;
+        //    cell.upButton.adjustsImageWhenDisabled = NO;
+        //    UIImage *down = [[UIImage imageNamed:@"down-32-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        //    cell.downButton.imageView.image = down;
+        //    cell.downButton.adjustsImageWhenHighlighted = NO;
+        //    cell.downButton.adjustsImageWhenDisabled = NO;
+        
+        // check if the user voted on object
+        if([ups containsObject:[PFUser currentUser].objectId]){
+            // user voted up
+            //        NSLog(@"user voted up : %@",cell.songTitle.text);
+            
+            
+            cell.upButton.tintColor = [UIColor greenColor];
+            cell.downButton.tintColor = [Theme fontBlack];
+            
+        } else if([downs containsObject:[PFUser currentUser].objectId]){
+            // user voted down
+            //        NSLog(@"user voted down : %@",cell.songTitle.text);
+            
+            cell.upButton.tintColor = [Theme fontBlack];
+            cell.downButton.tintColor = [UIColor redColor];
+            
+        } else {
+            cell.upButton.tintColor = [Theme fontBlack];
+            cell.downButton.tintColor = [Theme fontBlack];
+        }
+        
+        returnCell = cell;
     } else {
-        cell.upButton.tintColor = [Theme fontBlack];
-        cell.downButton.tintColor = [Theme fontBlack];
+        returnCell = (id)[tableView dequeueReusableCellWithIdentifier:@"NoSongsCell"];
     }
     
-    return cell;
+    
+    
+    return returnCell;
 }
 
 /*

@@ -9,6 +9,8 @@
 #import "SongCell.h"
 #import "SongCellObject.h"
 
+#import "Song.h"
+
 @implementation SongCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -41,7 +43,7 @@
     
     if(self.accessoryType == UITableViewCellAccessoryCheckmark){
         NSLog(@"item is checked");
-        PFObject *o = self.object.song;
+        Song *o = self.object.song;
 
         [o deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(succeeded){
@@ -58,10 +60,10 @@
     } else if(self.accessoryType == UITableViewCellAccessoryNone) {
         NSLog(@"item is NOT checked");
         
-        PFObject *obj = [PFObject objectWithClassName:@"Song"];
-        obj[@"title"] = songTitle;
-        obj[@"artist"] = artistLabel;
-        obj[@"owner"] = [PFUser currentUser];
+        Song *obj = [Song object];
+        obj.title = songTitle;
+        obj.artist = artistLabel;
+        obj.owner = [PFUser currentUser];
         self.object.song = obj;
 
         [obj saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

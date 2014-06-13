@@ -10,20 +10,29 @@
 #import <Parse/Parse.h>
 #import <AVFoundation/AVFoundation.h>
 
+#import "Hub.h"
+#import "Song.h"
+#import "QueuedSong.h"
+
 @class Reachability;
 
-@interface HomeVC : UIViewController<UIActionSheetDelegate,UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface HomeVC : UIViewController<UIAlertViewDelegate,UIActionSheetDelegate,UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIBarButtonItem *refreshButton;
 @property (strong, nonatomic) NSMutableArray *data;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *myHubButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *startButton;
-@property (strong, nonatomic) PFObject *myHub;
+@property (strong, nonatomic) Hub *myHub;
 @property (strong, nonatomic) Reachability *reach;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableViewToBottom;
 
 
+// toolbar
+@property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
+
+
+// alerts
+@property (strong, nonatomic) UIAlertView *passcodeAlert;
 
 
 +(AVPlayer*)myPlayer;
@@ -31,7 +40,6 @@
 +(AVPlayer*)newPlayer;
 +(AVPlayer *)newPlayerWithURL:(NSURL*)url;
 
-- (IBAction)onAddSite:(id)sender;
 - (IBAction)onRefreshSites:(id)sender;
 - (IBAction)onOptions:(id)sender;
 - (IBAction)onMyHub:(id)sender;
@@ -39,6 +47,7 @@
 - (void)evalHub;
 
 // filter properties
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *tableViewToBottom;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *filterBarY;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *filterButton;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *filterBar;

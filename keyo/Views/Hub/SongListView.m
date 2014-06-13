@@ -7,7 +7,9 @@
 //
 
 #import "SongListView.h"
-
+#import "Hub.h"
+#import "Song.h"
+#import "QueuedSong.h"
 #import "Theme.h"
 
 @interface SongListView ()
@@ -83,10 +85,10 @@
     [self loadSongs];
 }
 
-- (void)setHub:(PFObject *)hub
+- (void)setHub:(Hub *)hub
 {
     _hub = hub;
-    self.query = [PFQuery queryWithClassName:@"Song"];
+    self.query = [Song query];
     //    [self.query whereKey:@"hub" equalTo:self.hub];
     //    [self.query whereKeyDoesNotExist:@"queue"];
     
@@ -135,13 +137,13 @@
     
     // Configure the cell...
     
-    PFObject *obj = [self.data objectAtIndex:indexPath.row];
+    Song *obj = [self.data objectAtIndex:indexPath.row];
     
 //    cell.textLabel.text = obj[@"title"];
     UILabel *title = (id)[cell viewWithTag:1];
-    title.text = obj[@"title"];
+    title.text = obj.title;
     UILabel *artist = (id)[cell viewWithTag:2];
-    artist.text = obj[@"artist"];
+    artist.text = obj.artist;
     
     
     // theme the cell
@@ -156,7 +158,7 @@
 {
 //    PFObject *obj = [self.data objectAtIndex:indexPath.row];
     
-    PFQuery *q = [PFQuery queryWithClassName:@"QueuedSong"];
+    PFQuery *q = [QueuedSong query];
     [q whereKey:@"song" equalTo:[self.data objectAtIndex:indexPath.row]];
     [q whereKey:@"active" equalTo:@YES];
     
@@ -191,15 +193,15 @@
 {
     if(buttonIndex==1){ // yes
         
-        PFObject *song = [self.data objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        Song *song = [self.data objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         
-        PFObject *queuedSong = [PFObject objectWithClassName:@"QueuedSong"];
+        QueuedSong *queuedSong = [QueuedSong object];
         
-        queuedSong[@"song"] = song;
-        queuedSong[@"hub"] = self.hub;
-        queuedSong[@"addedBy"] = [PFUser currentUser];
-        queuedSong[@"points"] = @1;
-        queuedSong[@"active"] = @YES;
+        queuedSong.song = song;
+        queuedSong.hub = self.hub;
+        queuedSong.addedBy = [PFUser currentUser];
+        queuedSong.score = @1;
+        queuedSong.active = YES;
         
         [queuedSong saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(succeeded){

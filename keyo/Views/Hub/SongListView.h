@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
+@class Hub, Song, QueuedSong;
+
 @interface SongListView : UITableViewController<UIAlertViewDelegate>
 
 @property (strong,nonatomic) NSMutableArray *data;
 @property (strong,nonatomic) PFQuery *query;
-@property (strong,nonatomic) PFObject *hub;
+@property (strong,nonatomic) Hub *hub;
 
 -(void)loadSongs;
 

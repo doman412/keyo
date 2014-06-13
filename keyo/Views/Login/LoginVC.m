@@ -32,15 +32,19 @@
     self.view.backgroundColor = [Theme backgroundBlue];
     
     self.titleLabel.textColor = [Theme wellWhite];
+    self.tryItLabel.textColor = [Theme wellWhite];
     
     [self.signUpButton setTitleColor:[Theme wellWhite] forState:UIControlStateNormal];
-    [self.loginButton setTitleColor:[Theme wellWhite] forState:UIControlStateNormal];
-    
     self.signUpButton.backgroundColor = [Theme lightBlue];
     self.signUpButton.layer.cornerRadius = 3.0;
     
+    [self.loginButton setTitleColor:[Theme wellWhite] forState:UIControlStateNormal];
     self.loginButton.backgroundColor = [Theme lightBlue];
     self.loginButton.layer.cornerRadius = 3.0;
+    
+    [self.tryItButton setTitleColor:[Theme wellWhite] forState:UIControlStateNormal];
+    self.tryItButton.backgroundColor = [Theme lightBlue];
+    self.tryItButton.layer.cornerRadius = 3.0;
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,18 +70,17 @@
 
 - (void)onLoginReturn:(PFUser *)user error:(NSError *)error
 {
+//    NSLog(@"onLoginReturn");
     if(error){
         NSLog(@"onLoginReturn: %li, err(%@)",(long)error.code, error);
-        UIAlertView *a;
         switch(error.code){
             case 101:
-                a = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Wrong username or password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [[[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Wrong username or password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
                 break;
             case 100:
                 [[[UIAlertView alloc] initWithTitle:@"Connection Error" message:@"There was an issue connecting. Please make sure you have an internet connection established." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
                 break;
         }
-        [a show];
     } else {
         [self dismissViewControllerAnimated:YES completion:nil];
     }

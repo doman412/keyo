@@ -10,13 +10,15 @@
 #import <AFNetworking/AFNetworking.h>
 #import <Parse/Parse.h>
 
+@class Hub, Song, QueuedSong;
+
 @interface SpotifyVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UIAlertViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) PFObject *selectedSong;
-@property (strong, nonatomic) PFObject *hub;
+@property (strong, nonatomic) Song *selectedSong;
+@property (strong, nonatomic) Hub *hub;
 @property (strong,nonatomic) NSMutableArray *data;
 
 

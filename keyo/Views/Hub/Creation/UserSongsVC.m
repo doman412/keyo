@@ -8,6 +8,10 @@
 
 #import "UserSongsVC.h"
 
+#import "Hub.h"
+#import "Song.h"
+#import "QueuedSong.h"
+
 @interface UserSongsVC ()
 
 @end
@@ -101,10 +105,10 @@
        if(!error){
            self.data = [[NSMutableArray alloc] init];
            
-           for(PFObject *song in objects){
+           for(Song *song in objects){
                SongCellObject *obj = [[SongCellObject alloc] init];
-               obj.title = song[@"title"];
-               obj.artist = song[@"artist"];
+               obj.title = song.title;
+               obj.artist = song.artist;
                obj.song = song;
                
                [self.data addObject:obj];
@@ -207,7 +211,7 @@
         NSArray *array = [self.data filteredArrayUsingPredicate:pred];
         
         if(array.count > 0){
-            PFObject *o = ((SongCellObject*)[array firstObject]).song;
+            Song *o = ((SongCellObject*)[array firstObject]).song;
             
             [o deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if(succeeded){
@@ -226,10 +230,10 @@
         }
         
     } else if(cell.accessoryType == UITableViewCellAccessoryNone) {
-        PFObject *obj = [PFObject objectWithClassName:@"Song"];
-        obj[@"title"] = songTitle;
-        obj[@"artist"] = artistLabel;
-        obj[@"owner"] = [PFUser currentUser];
+        Song *obj = [Song object];
+        obj.title = songTitle;
+        obj.artist = artistLabel;
+        obj.owner = [PFUser currentUser];
         
         
         

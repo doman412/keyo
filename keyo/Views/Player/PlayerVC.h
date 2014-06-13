@@ -12,7 +12,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-@class Reachability;
+@class Reachability, Hub, Song, QueuedSong;
 
 
 
@@ -25,12 +25,12 @@ extern const NSInteger Spotify;
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *trashButton;
 @property (strong, nonatomic) UIAlertView *trashConfirm;
-@property (strong, nonatomic) PFObject *hub;
+@property (strong, nonatomic) Hub *hub;
 @property (strong, nonatomic) MPMusicPlayerController *player;
 @property (strong, nonatomic) AVPlayer *ytPlayer;
 //@property (strong, nonatomic) PFQuery *queue;
 @property (strong, nonatomic) NSTimer *barTimer;
-@property (strong, nonatomic) PFObject *nowPlayingObject;
+@property (strong, nonatomic) QueuedSong *nowPlayingObject;
 @property (assign, nonatomic) NSInteger playerType;
 
 @property (strong, nonatomic) NSMutableArray *data;

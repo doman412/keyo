@@ -13,6 +13,10 @@
 #import "UIImage+Color.h"
 #import "DejalActivityView.h"
 
+#import "Hub.h"
+#import "Song.h"
+#import "QueuedSong.h"
+
 @interface YouTubeVC ()
 
 @end
@@ -132,7 +136,7 @@
         if(!error){
             if(objects.count>0){
                 NSLog(@"found song for yt id: %@",videoId);
-                PFObject *song = [objects objectAtIndex:0];
+                Song *song = [objects objectAtIndex:0];
                 
                 PFQuery *q = [PFQuery queryWithClassName:@"QueuedSong"];
                 [q whereKey:@"hub" equalTo:self.hub];
@@ -167,14 +171,14 @@
             } else {
                 NSLog(@"failed to find song for yt id: %@",videoId);
                 
-                PFObject *song = [PFObject objectWithClassName:@"Song"];
-                song[@"owner"] = [PFUser currentUser];
-                song[@"title"] = title;
-                song[@"artist"] = artist;
-                song[@"type"] = @"yt";
-                song[@"pId"] = videoId;
-                song[@"thumbnail"] = imgURL;
-                song[@"description"] = description;
+                Song *song = [Song object];
+                song.owner = [PFUser currentUser];
+                song.title = title;
+                song.artist = artist;
+                song.type = @"yt";
+                song.pId = videoId;
+                song.thumbnail = imgURL;
+                song.description = description;
                 
                 
                 [song saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -221,15 +225,15 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex==1){ // yes
-        PFObject *song = self.selectedSong;
-        PFObject *queuedSong = [PFObject objectWithClassName:@"QueuedSong"];
+        Song *song = self.selectedSong;
+        QueuedSong *queuedSong = [QueuedSong object];
         self.queuedSongToAdd = queuedSong;
-        queuedSong[@"song"] = song;
-        queuedSong[@"hub"] = self.hub;
-        queuedSong[@"addedBy"] = [PFUser currentUser];
-        queuedSong[@"ups"] = @[[PFUser currentUser].objectId];
-        queuedSong[@"downs"] = @[];
-        queuedSong[@"active"] = @YES;
+        queuedSong.song = song;
+        queuedSong.hub = self.hub;
+        queuedSong.addedBy = [PFUser currentUser];
+        queuedSong.ups = @[[PFUser currentUser].objectId];
+        queuedSong.downs = @[];
+        queuedSong.active = YES;
         
         [self.queuedSongToAdd saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(!succeeded){

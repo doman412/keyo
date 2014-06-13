@@ -10,21 +10,27 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <Parse/Parse.h>
 
+@class Hub, Song, QueuedSong;
+
 @interface HubSettingsVC : UITableViewController<UINavigationControllerDelegate,MPMediaPickerControllerDelegate,UITextFieldDelegate>
 
-@property (strong, nonatomic) IBOutlet UITextField *hubNameField;
-@property (strong, nonatomic) IBOutlet UISwitch *publicSwitch;
-@property (strong, nonatomic) IBOutlet UITextField *passcodeField;
-@property (strong, nonatomic) IBOutlet UITextField *visibilityField;
-@property (strong, nonatomic) IBOutlet UITextField *submissionRateField;
-@property (strong, nonatomic) IBOutlet UITextField *reputationField;
+@property (strong, nonatomic) NSMutableArray *data;
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *saveButton;
 
 @property (strong, nonatomic) NSMutableArray *selectedSongs;
-@property (strong, nonatomic) PFObject *hub;
+@property (strong, nonatomic) Hub *hub;
 
 - (IBAction)onPublicSwitchChanged:(id)sender;
 - (IBAction)onSave:(id)sender;
+// hub name change
+- (IBAction)hubNameFieldDidEndEditing:(UITextField*)sender;
+// passcode change
+- (IBAction)passcodeFieldDidEndEditing:(UITextField*)sender;
+
+// music sources
+// local music
+- (IBAction)localMusicToggle:(UISwitch *)sender;
+
 
 @end

@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 
+@class Hub;
+
 @interface SiteObject : NSObject
 
 @property (strong,nonatomic) NSString *title;
-@property (strong,nonatomic) PFObject *hub;
+@property (strong,nonatomic) Hub *hub;
 
 @end

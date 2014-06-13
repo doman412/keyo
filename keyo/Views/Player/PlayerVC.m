@@ -69,7 +69,7 @@ const NSInteger Spotify = 2;
     }
     
 //    if(self.player.currentPlaybackRate==0.0){
-//        [self.playPauseButton setImage:[UIImage imageNamed:@"play-75"] forState:UIControlStateNormal];
+//        [self.playPauseButton setImage:[UIImage imageNamed:@"play-128"] forState:UIControlStateNormal];
 //    } else {
 //        MPMediaItem *item = self.player.nowPlayingItem;
 //        self.songTitleLabel.text = [item valueForProperty:MPMediaItemPropertyTitle];
@@ -186,12 +186,12 @@ const NSInteger Spotify = 2;
 {
     if(self.nowPlayingObject){
 //        NSLog(@"now playing object: %@", self.nowPlayingObject[@"song"]);
-        PFObject *song = self.nowPlayingObject[@"song"];
-        self.songTitleLabel.text = song[@"title"];
-        self.artistTitleLabel.text = song[@"artist"];
+        Song *song = self.nowPlayingObject.song;
+        self.songTitleLabel.text = song.title;
+        self.artistTitleLabel.text = song.artist;
         
         
-        if([song[@"type"] isEqualToString:@"yt"]){
+        if([song.type isEqualToString:@"yt"]){
             self.playerType = YouTube;
         }
         // temp thing due to incorrect setting of web app
@@ -200,12 +200,12 @@ const NSInteger Spotify = 2;
         NSMutableDictionary *songInfo = [[NSMutableDictionary alloc] init];
         
         //                    MPMediaItemArtwork *albumArt = [[MPMediaItemArtwork alloc] initWithImage: [UIImage imagedNamed:@"AlbumArt"]];
-        NSString *title = song[@"title"];
-        NSString *artist = song[@"artist"];
+        NSString *title = song.title;
+        NSString *artist = song.artist;
         if(title)
-            [songInfo setObject:song[@"title"] forKey:MPMediaItemPropertyTitle];
+            [songInfo setObject:song.title forKey:MPMediaItemPropertyTitle];
         if(artist)
-            [songInfo setObject:song[@"artist"] forKey:MPMediaItemPropertyArtist];
+            [songInfo setObject:song.artist forKey:MPMediaItemPropertyArtist];
         //                    [songInfo setObject:@"Audio Album" forKey:MPMediaItemPropertyAlbumTitle];
         //                    [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
         [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
@@ -218,7 +218,7 @@ const NSInteger Spotify = 2;
 //        NSLog(@"player type: youtube");
         if(self.ytPlayer.rate==0.0){ // not playing
 //            NSLog(@"player type: youtube; not playing");
-            [self.playPauseButton setImage:[UIImage imageNamed:@"play-75"] forState:UIControlStateNormal];
+            [self.playPauseButton setImage:[UIImage imageNamed:@"play-128"] forState:UIControlStateNormal];
         }
     }
 
@@ -260,8 +260,8 @@ const NSInteger Spotify = 2;
             if(next){
                 
                 if(self.nowPlayingObject){
-                    PFObject *first = self.nowPlayingObject;
-                    PFObject *song = first[@"song"];
+                    QueuedSong *first = self.nowPlayingObject;
+                    Song *song = first.song;
                     
                     
                     if(self.playerType == YouTube){ // song is from YouTube so change to playerType: YouTube
@@ -269,8 +269,8 @@ const NSInteger Spotify = 2;
                         // the following if block should be temporary to fix cloud code issue
 //                        NSLog(@"youtube song: %@", song);
                         NSString *ID = nil;
-                        if(song[@"pId"]){
-                            ID = song[@"pId"];
+                        if(song.pId){
+                            ID = song.pId;
                         } else {
                             NSLog(@"need to use youtubeId");
                             ID = song[@"youtubeId"];
@@ -306,7 +306,7 @@ const NSInteger Spotify = 2;
                                     NSLog(@"pause song on youtube");
                                     [self.player pause];
                                 }
-                                [self.playPauseButton setImage:[UIImage imageNamed:@"pause-75"] forState:UIControlStateNormal];
+                                [self.playPauseButton setImage:[UIImage imageNamed:@"pause-128"] forState:UIControlStateNormal];
                                 [self.ytPlayer play];
                             } else {
                                 NSLog(@"failed to get url from parse: %@", error);
@@ -342,7 +342,7 @@ const NSInteger Spotify = 2;
                         
                         
                         
-                        NSString *pid = [song objectForKey:@"pId"];
+                        NSString *pid = song.pId;
                         NSNumber *blah = [NSNumber numberWithLongLong:[pid longLongValue]];
                         NSLog(@"next song is native on device: %@\n%@", pid,blah);
                         
@@ -355,7 +355,7 @@ const NSInteger Spotify = 2;
                         [self.player setQueueWithQuery:mediaQuery];
                         [self.player play];
                         
-                        [self.playPauseButton setImage:[UIImage imageNamed:@"pause-75"] forState:UIControlStateNormal];
+                        [self.playPauseButton setImage:[UIImage imageNamed:@"pause-128"] forState:UIControlStateNormal];
                         
                         [self.barTimer invalidate];
                         self.barTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
@@ -429,7 +429,7 @@ const NSInteger Spotify = 2;
             
             if(self.player.nowPlayingItem){ // have a paused item, play it
                 [self.player play];
-                [self.playPauseButton setImage:[UIImage imageNamed:@"pause-75"] forState:UIControlStateNormal];
+                [self.playPauseButton setImage:[UIImage imageNamed:@"pause-128"] forState:UIControlStateNormal];
                 
                 [self.barTimer invalidate];
                 self.barTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
@@ -440,7 +440,7 @@ const NSInteger Spotify = 2;
         } else if(self.player.currentPlaybackRate==1.0) { // playing
             [self.barTimer invalidate];
             [self.player pause];
-            [self.playPauseButton setImage:[UIImage imageNamed:@"play-75"] forState:UIControlStateNormal];
+            [self.playPauseButton setImage:[UIImage imageNamed:@"play-128"] forState:UIControlStateNormal];
         }
         
     } else if(self.playerType == Spotify){
@@ -454,7 +454,7 @@ const NSInteger Spotify = 2;
             if(self.ytPlayer.currentItem){
                 NSLog(@"--has current item, play it");
                 [self.ytPlayer play];
-                [self.playPauseButton setImage:[UIImage imageNamed:@"pause-75"] forState:UIControlStateNormal];
+                [self.playPauseButton setImage:[UIImage imageNamed:@"pause-128"] forState:UIControlStateNormal];
                 
                 [self.barTimer invalidate];
                 self.barTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
@@ -468,7 +468,7 @@ const NSInteger Spotify = 2;
             
             [self.barTimer invalidate];
             [self.ytPlayer pause];
-            [self.playPauseButton setImage:[UIImage imageNamed:@"play-75"] forState:UIControlStateNormal];
+            [self.playPauseButton setImage:[UIImage imageNamed:@"play-128"] forState:UIControlStateNormal];
         }
         
         
@@ -497,14 +497,14 @@ const NSInteger Spotify = 2;
     NSMutableArray *array = [[NSMutableArray alloc] init];
     
     for(MPMediaItem *i in mediaItemCollection.items){
-        PFObject *o = [PFObject objectWithClassName:@"Song"];
+        Song *o = [Song object];
         
-        o[@"hub"] = self.hub;
-        o[@"owner"] = [PFUser currentUser];
-        o[@"title"] = [i valueForProperty:MPMediaItemPropertyTitle];
-        o[@"artist"] = [i valueForProperty:MPMediaItemPropertyArtist];
-        o[@"pId"] = [NSString stringWithFormat:@"%@", [i valueForProperty:MPMediaItemPropertyPersistentID]];
-        o[@"url"] = [[i valueForProperty:MPMediaItemPropertyAssetURL] absoluteString];
+//        o[@"hub"] = self.hub;
+        o.owner = [PFUser currentUser];
+        o.title = [i valueForProperty:MPMediaItemPropertyTitle];
+        o.artist = [i valueForProperty:MPMediaItemPropertyArtist];
+        o.pId = [NSString stringWithFormat:@"%@", [i valueForProperty:MPMediaItemPropertyPersistentID]];
+//        o[@"url"] = [[i valueForProperty:MPMediaItemPropertyAssetURL] absoluteString];
         
         
         [array addObject:o];
@@ -549,18 +549,18 @@ const NSInteger Spotify = 2;
     UITableViewCell *cell = (id)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    PFObject *queuedSong = [self.data objectAtIndex:indexPath.row];
+    QueuedSong *queuedSong = [self.data objectAtIndex:indexPath.row];
     
-    PFObject *obj = queuedSong[@"song"];
+    Song *obj = queuedSong.song;
     
     UILabel *points = (id)[cell viewWithTag:1];
     UILabel *title  = (id)[cell viewWithTag:2];
     UILabel *artist = (id)[cell viewWithTag:3];
     
 
-    title.text = obj[@"title"];
-    artist.text = obj[@"artist"];
-    points.text = [NSString stringWithFormat:@"%li", (long)[queuedSong[@"score"] integerValue]];
+    title.text = obj.title;
+    artist.text = obj.artist;
+    points.text = [NSString stringWithFormat:@"%li", (long)[queuedSong.score integerValue]];
     
     // theme the cell
     cell.backgroundColor = [Theme wellWhite];

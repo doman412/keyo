@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
+@class Hub, Song, QueuedSong;
+
 @interface QueueCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UIButton *downButton;
@@ -18,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *submittedByLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *stepper;
 @property (weak, nonatomic) IBOutlet UILabel *pointsLabel;
-@property (strong,nonatomic) PFObject *queuedSong;
+@property (strong,nonatomic) QueuedSong *queuedSong;
 @property (weak, nonatomic) UITableView *tableView;
 
 

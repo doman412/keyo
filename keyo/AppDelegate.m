@@ -10,7 +10,10 @@
 #import <Parse/Parse.h>
 #import <Spotify/Spotify.h>
 #import "Theme.h"
-
+// parse classes
+#import "Hub.H"
+#import "Song.h"
+#import "QueuedSong.h"
 
 
 static NSString * const kClientId = @"spotify-ios-sdk-beta";
@@ -24,14 +27,15 @@ static NSString * const kSessionUserDefaultsKey = @"SpotifySession";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [Hub registerSubclass];
+    [Song registerSubclass];
+    [QueuedSong registerSubclass];
     
     // keyo app
-//    [Parse setApplicationId:@"uIDUQhDpQqt52mUCBXjAVT6dbKY7LKGFydqxsKb1"
-//                  clientKey:@"3AKo2kclh3TApYViG6MKcljISRlAueXRpZAZe4z1"];
+    [Parse setApplicationId:@"uIDUQhDpQqt52mUCBXjAVT6dbKY7LKGFydqxsKb1" clientKey:@"3AKo2kclh3TApYViG6MKcljISRlAueXRpZAZe4z1"];
     
     // juke app
-    [Parse setApplicationId:@"GU8DuOP6RzlnFFNBNOVnB5qrf6HCqxpJXSbDyN3W"
-                  clientKey:@"UPgsMzQYf73zz5TVTmHJjvI7WWSrzgrGqP4H7cn3"];
+//    [Parse setApplicationId:@"GU8DuOP6RzlnFFNBNOVnB5qrf6HCqxpJXSbDyN3W" clientKey:@"UPgsMzQYf73zz5TVTmHJjvI7WWSrzgrGqP4H7cn3"];
     
     
     

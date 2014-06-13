@@ -44,6 +44,11 @@
 		C7497FD518CEC8EA00D86779 /* OptionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7497FD418CEC8EA00D86779 /* OptionsVC.m */; };
 		C7940A0A18D6791F0012B026 /* UIImage+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = C7940A0918D6791F0012B026 /* UIImage+Size.m */; };
 		C7940A1118DD90FF0012B026 /* dl.js in Sources */ = {isa = PBXBuildFile; fileRef = C7940A1018DD90FF0012B026 /* dl.js */; };
+		C796D9961947B87A00A00D10 /* AlbumMediaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C796D9921947B87A00A00D10 /* AlbumMediaPickerVC.m */; };
+		C796D9971947B87A00A00D10 /* RootMediaPickerTBC.m in Sources */ = {isa = PBXBuildFile; fileRef = C796D9931947B87A00A00D10 /* RootMediaPickerTBC.m */; };
+		C796D9981947B87A00A00D10 /* SongsMediaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C796D9951947B87A00A00D10 /* SongsMediaPickerVC.m */; };
+		C796D99B1947B89700A00D10 /* PlaylistMediaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C796D99A1947B89700A00D10 /* PlaylistMediaPickerVC.m */; };
+		C796D99E1947C55000A00D10 /* ArtistMediaPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C796D99D1947C55000A00D10 /* ArtistMediaPickerVC.m */; };
 		C7B330BE187FEA70008BA6A8 /* HubSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B330BD187FEA70008BA6A8 /* HubSettingsVC.m */; };
 		C7B330C1188098EE008BA6A8 /* UserSongsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B330C0188098EE008BA6A8 /* UserSongsVC.m */; };
 		C7B3311A188917AE008BA6A8 /* SongCellObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B33119188917AE008BA6A8 /* SongCellObject.m */; };
@@ -66,7 +71,13 @@
 		C7B5741918F25EDF003C7B1C /* SoundCloudVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B5741818F25EDF003C7B1C /* SoundCloudVC.m */; };
 		C7B8901618C4786300CCE11F /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B8901518C4786300CCE11F /* UIImage+Color.m */; };
 		C7B8901918C5034600CCE11F /* SpotifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7B8901818C5034600CCE11F /* SpotifyVC.m */; };
+		C7C6D3C1193B96B10048CE21 /* PFFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C6D3C0193B96B10048CE21 /* PFFactory.m */; };
+		C7C6D3C3193D0B730048CE21 /* MediaPickerSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7C6D3C2193D0B730048CE21 /* MediaPickerSB.storyboard */; };
+		C7C6D3C8193D234E0048CE21 /* AboutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C6D3C7193D234E0048CE21 /* AboutVC.m */; };
 		C7C92A2918F4D6BA00BDD758 /* HubViewSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7C92A2818F4D6BA00BDD758 /* HubViewSB.storyboard */; };
+		C7DE43CB1911F91400488F91 /* Hub.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DE43CA1911F91400488F91 /* Hub.m */; };
+		C7DE43CE1917463400488F91 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DE43CD1917463400488F91 /* Song.m */; };
+		C7DE43D1191747C000488F91 /* QueuedSong.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DE43D0191747C000488F91 /* QueuedSong.m */; };
 		C7F170631895CF0400292699 /* PlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F170621895CF0400292699 /* PlayerVC.m */; };
 		D246FF6AC2804D549AC90393 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC6102451FE469993D73932 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -135,6 +146,16 @@
 		C7940A0818D6791F0012B026 /* UIImage+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Size.h"; sourceTree = "<group>"; };
 		C7940A0918D6791F0012B026 /* UIImage+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Size.m"; sourceTree = "<group>"; };
 		C7940A1018DD90FF0012B026 /* dl.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = dl.js; path = HTML/dl.js; sourceTree = "<group>"; };
+		C796D9881946783F00A00D10 /* RootMediaPickerTBC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootMediaPickerTBC.h; sourceTree = "<group>"; };
+		C796D9911947B87A00A00D10 /* AlbumMediaPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumMediaPickerVC.h; sourceTree = "<group>"; };
+		C796D9921947B87A00A00D10 /* AlbumMediaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumMediaPickerVC.m; sourceTree = "<group>"; };
+		C796D9931947B87A00A00D10 /* RootMediaPickerTBC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootMediaPickerTBC.m; sourceTree = "<group>"; };
+		C796D9941947B87A00A00D10 /* SongsMediaPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongsMediaPickerVC.h; sourceTree = "<group>"; };
+		C796D9951947B87A00A00D10 /* SongsMediaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongsMediaPickerVC.m; sourceTree = "<group>"; };
+		C796D9991947B89700A00D10 /* PlaylistMediaPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistMediaPickerVC.h; sourceTree = "<group>"; };
+		C796D99A1947B89700A00D10 /* PlaylistMediaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistMediaPickerVC.m; sourceTree = "<group>"; };
+		C796D99C1947C55000A00D10 /* ArtistMediaPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistMediaPickerVC.h; sourceTree = "<group>"; };
+		C796D99D1947C55000A00D10 /* ArtistMediaPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistMediaPickerVC.m; sourceTree = "<group>"; };
 		C7B330BC187FEA70008BA6A8 /* HubSettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HubSettingsVC.h; path = Views/Hub/Creation/HubSettingsVC.h; sourceTree = "<group>"; };
 		C7B330BD187FEA70008BA6A8 /* HubSettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HubSettingsVC.m; path = Views/Hub/Creation/HubSettingsVC.m; sourceTree = "<group>"; };
 		C7B330BF188098EE008BA6A8 /* UserSongsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSongsVC.h; path = Views/Hub/Creation/UserSongsVC.h; sourceTree = "<group>"; };
@@ -174,7 +195,18 @@
 		C7B8901518C4786300CCE11F /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
 		C7B8901718C5034600CCE11F /* SpotifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpotifyVC.h; path = Views/Hub/TabViews/SpotifyVC.h; sourceTree = "<group>"; };
 		C7B8901818C5034600CCE11F /* SpotifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpotifyVC.m; path = Views/Hub/TabViews/SpotifyVC.m; sourceTree = "<group>"; };
+		C7C6D3BF193B96B10048CE21 /* PFFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFFactory.h; sourceTree = "<group>"; };
+		C7C6D3C0193B96B10048CE21 /* PFFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFFactory.m; sourceTree = "<group>"; };
+		C7C6D3C2193D0B730048CE21 /* MediaPickerSB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MediaPickerSB.storyboard; path = Storyboards/MediaPickerSB.storyboard; sourceTree = "<group>"; };
+		C7C6D3C6193D234E0048CE21 /* AboutVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutVC.h; path = Views/Options/AboutVC.h; sourceTree = "<group>"; };
+		C7C6D3C7193D234E0048CE21 /* AboutVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutVC.m; path = Views/Options/AboutVC.m; sourceTree = "<group>"; };
 		C7C92A2818F4D6BA00BDD758 /* HubViewSB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = HubViewSB.storyboard; path = Storyboards/HubViewSB.storyboard; sourceTree = "<group>"; };
+		C7DE43C91911F91400488F91 /* Hub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hub.h; path = ParseClasses/Hub.h; sourceTree = "<group>"; };
+		C7DE43CA1911F91400488F91 /* Hub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hub.m; path = ParseClasses/Hub.m; sourceTree = "<group>"; };
+		C7DE43CC1917463400488F91 /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Song.h; path = ParseClasses/Song.h; sourceTree = "<group>"; };
+		C7DE43CD1917463400488F91 /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Song.m; path = ParseClasses/Song.m; sourceTree = "<group>"; };
+		C7DE43CF191747C000488F91 /* QueuedSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueuedSong.h; path = ParseClasses/QueuedSong.h; sourceTree = "<group>"; };
+		C7DE43D0191747C000488F91 /* QueuedSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueuedSong.m; path = ParseClasses/QueuedSong.m; sourceTree = "<group>"; };
 		C7F170611895CF0400292699 /* PlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerVC.h; path = Views/Player/PlayerVC.h; sourceTree = "<group>"; };
 		C7F170621895CF0400292699 /* PlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerVC.m; path = Views/Player/PlayerVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -331,7 +363,9 @@
 				C7B33127188A2FA9008BA6A8 /* Player */,
 				3884A903186D5308004400B8 /* Hub */,
 				382A87A3186C1F1000B4ADFA /* Home */,
+				C7C6D3C5193D22E90048CE21 /* Options */,
 				382A879C186BD8BD00B4ADFA /* Login */,
+				C796D987194674A000A00D10 /* MediaPicker */,
 				C7B4FD1418BC499700D9E795 /* TestWebView.h */,
 				C7B4FD1518BC499700D9E795 /* TestWebView.m */,
 			);
@@ -345,6 +379,7 @@
 				382A87621867A33C00B4ADFA /* Main_iPad.storyboard */,
 				C7B4FD3618C02FF400D9E795 /* Waiting.storyboard */,
 				C7C92A2818F4D6BA00BDD758 /* HubViewSB.storyboard */,
+				C7C6D3C2193D0B730048CE21 /* MediaPickerSB.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -367,8 +402,6 @@
 				382A87A5186C1FB700B4ADFA /* HomeVC.m */,
 				382A87A7186CB20500B4ADFA /* SiteObject.h */,
 				382A87A8186CB20500B4ADFA /* SiteObject.m */,
-				C7497FD318CEC8EA00D86779 /* OptionsVC.h */,
-				C7497FD418CEC8EA00D86779 /* OptionsVC.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -376,8 +409,10 @@
 		3884A903186D5308004400B8 /* Hub */ = {
 			isa = PBXGroup;
 			children = (
+				3884A904186E18AE004400B8 /* HubView.h */,
+				3884A905186E18AE004400B8 /* HubView.m */,
 				C7B4FD1018BACCA000D9E795 /* TabViews */,
-				C7B330BB187FEA3D008BA6A8 /* Creation */,
+				C7B330BB187FEA3D008BA6A8 /* Settings */,
 				3884A90D18721BAF004400B8 /* Cells */,
 			);
 			name = Hub;
@@ -408,7 +443,25 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
-		C7B330BB187FEA3D008BA6A8 /* Creation */ = {
+		C796D987194674A000A00D10 /* MediaPicker */ = {
+			isa = PBXGroup;
+			children = (
+				C796D9881946783F00A00D10 /* RootMediaPickerTBC.h */,
+				C796D9931947B87A00A00D10 /* RootMediaPickerTBC.m */,
+				C796D9941947B87A00A00D10 /* SongsMediaPickerVC.h */,
+				C796D9951947B87A00A00D10 /* SongsMediaPickerVC.m */,
+				C796D9911947B87A00A00D10 /* AlbumMediaPickerVC.h */,
+				C796D9921947B87A00A00D10 /* AlbumMediaPickerVC.m */,
+				C796D9991947B89700A00D10 /* PlaylistMediaPickerVC.h */,
+				C796D99A1947B89700A00D10 /* PlaylistMediaPickerVC.m */,
+				C796D99C1947C55000A00D10 /* ArtistMediaPickerVC.h */,
+				C796D99D1947C55000A00D10 /* ArtistMediaPickerVC.m */,
+			);
+			name = MediaPicker;
+			path = Views/MediaPicker;
+			sourceTree = "<group>";
+		};
+		C7B330BB187FEA3D008BA6A8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				C7B330BC187FEA70008BA6A8 /* HubSettingsVC.h */,
@@ -420,7 +473,7 @@
 				C7B3311B188920F1008BA6A8 /* SongCell.h */,
 				C7B3311C188920F1008BA6A8 /* SongCell.m */,
 			);
-			name = Creation;
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		C7B3311E188A2E61008BA6A8 /* Library */ = {
@@ -447,8 +500,11 @@
 		C7B4FD0818B9A42D00D9E795 /* Utillities */ = {
 			isa = PBXGroup;
 			children = (
+				C7DE43AB1911EC3500488F91 /* ParseClasses */,
 				C7B4FD0918B9A46600D9E795 /* Theme.h */,
 				C7B4FD0A18B9A46600D9E795 /* Theme.m */,
+				C7C6D3BF193B96B10048CE21 /* PFFactory.h */,
+				C7C6D3C0193B96B10048CE21 /* PFFactory.m */,
 			);
 			name = Utillities;
 			sourceTree = "<group>";
@@ -456,8 +512,6 @@
 		C7B4FD1018BACCA000D9E795 /* TabViews */ = {
 			isa = PBXGroup;
 			children = (
-				3884A904186E18AE004400B8 /* HubView.h */,
-				3884A905186E18AE004400B8 /* HubView.m */,
 				3884A9071870C2B8004400B8 /* SongListView.h */,
 				3884A9081870C2B8004400B8 /* SongListView.m */,
 				C7B4FD1118BACD3D00D9E795 /* YouTubeVC.h */,
@@ -526,6 +580,30 @@
 				C7B4FD3A18C032CD00D9E795 /* Waiting.m */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
+		C7C6D3C5193D22E90048CE21 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				C7497FD318CEC8EA00D86779 /* OptionsVC.h */,
+				C7497FD418CEC8EA00D86779 /* OptionsVC.m */,
+				C7C6D3C6193D234E0048CE21 /* AboutVC.h */,
+				C7C6D3C7193D234E0048CE21 /* AboutVC.m */,
+			);
+			name = Options;
+			sourceTree = "<group>";
+		};
+		C7DE43AB1911EC3500488F91 /* ParseClasses */ = {
+			isa = PBXGroup;
+			children = (
+				C7DE43C91911F91400488F91 /* Hub.h */,
+				C7DE43CA1911F91400488F91 /* Hub.m */,
+				C7DE43CC1917463400488F91 /* Song.h */,
+				C7DE43CD1917463400488F91 /* Song.m */,
+				C7DE43CF191747C000488F91 /* QueuedSong.h */,
+				C7DE43D0191747C000488F91 /* QueuedSong.m */,
+			);
+			name = ParseClasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -618,6 +696,7 @@
 				382A87641867A33C00B4ADFA /* Main_iPad.storyboard in Resources */,
 				C7C92A2918F4D6BA00BDD758 /* HubViewSB.storyboard in Resources */,
 				382A87691867A33C00B4ADFA /* Images.xcassets in Resources */,
+				C7C6D3C3193D0B730048CE21 /* MediaPickerSB.storyboard in Resources */,
 				C7B4FD3318C014F300D9E795 /* savefrom.html in Resources */,
 				382A87611867A33C00B4ADFA /* Main_iPhone.storyboard in Resources */,
 				382A87581867A33C00B4ADFA /* InfoPlist.strings in Resources */,
@@ -673,7 +752,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7C6D3C8193D234E0048CE21 /* AboutVC.m in Sources */,
 				C7B4FD1318BACD3D00D9E795 /* YouTubeVC.m in Sources */,
+				C796D9971947B87A00A00D10 /* RootMediaPickerTBC.m in Sources */,
+				C796D99B1947B89700A00D10 /* PlaylistMediaPickerVC.m in Sources */,
 				C7B4FD1618BC499700D9E795 /* TestWebView.m in Sources */,
 				382A875E1867A33C00B4ADFA /* AppDelegate.m in Sources */,
 				C7497FD518CEC8EA00D86779 /* OptionsVC.m in Sources */,
@@ -682,16 +764,21 @@
 				C7940A0A18D6791F0012B026 /* UIImage+Size.m in Sources */,
 				C7B330C1188098EE008BA6A8 /* UserSongsVC.m in Sources */,
 				C7B330BE187FEA70008BA6A8 /* HubSettingsVC.m in Sources */,
+				C7C6D3C1193B96B10048CE21 /* PFFactory.m in Sources */,
 				C7B4FD2C18BFCD4400D9E795 /* LBYouTubeExtractor.m in Sources */,
 				3884A906186E18AE004400B8 /* HubView.m in Sources */,
 				382A87A9186CB20500B4ADFA /* SiteObject.m in Sources */,
 				C7B4FD3118C004C700D9E795 /* MWYouTubeExtractor.m in Sources */,
+				C7DE43D1191747C000488F91 /* QueuedSong.m in Sources */,
+				C796D9981947B87A00A00D10 /* SongsMediaPickerVC.m in Sources */,
 				C7F170631895CF0400292699 /* PlayerVC.m in Sources */,
 				C7B3311A188917AE008BA6A8 /* SongCellObject.m in Sources */,
 				C7B5741918F25EDF003C7B1C /* SoundCloudVC.m in Sources */,
 				C7940A1118DD90FF0012B026 /* dl.js in Sources */,
 				382A87A2186BDB7D00B4ADFA /* SignUpVC.m in Sources */,
+				C796D99E1947C55000A00D10 /* ArtistMediaPickerVC.m in Sources */,
 				3884A91018721C3D004400B8 /* QueueCell.m in Sources */,
+				C796D9961947B87A00A00D10 /* AlbumMediaPickerVC.m in Sources */,
 				C7B4FD3B18C032CD00D9E795 /* Waiting.m in Sources */,
 				C7B8901918C5034600CCE11F /* SpotifyVC.m in Sources */,
 				382A87A6186C1FB700B4ADFA /* HomeVC.m in Sources */,
@@ -700,10 +787,12 @@
 				382A879F186BDA5600B4ADFA /* LoginVC.m in Sources */,
 				C7B4FD0B18B9A46600D9E795 /* Theme.m in Sources */,
 				C7B4FD3518C01F9800D9E795 /* youtube-video.js in Sources */,
+				C7DE43CE1917463400488F91 /* Song.m in Sources */,
 				C7B3311D188920F1008BA6A8 /* SongCell.m in Sources */,
 				382A875A1867A33C00B4ADFA /* main.m in Sources */,
 				3884A9091870C2B8004400B8 /* SongListView.m in Sources */,
 				C7B8901618C4786300CCE11F /* UIImage+Color.m in Sources */,
+				C7DE43CB1911F91400488F91 /* Hub.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

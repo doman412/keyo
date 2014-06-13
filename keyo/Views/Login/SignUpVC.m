@@ -56,7 +56,13 @@
             
             if(self.passField.text && ![self.passField.text isEqualToString:@""]){
                 
-                PFUser *u = [PFUser user];
+                PFUser *u = nil;
+                
+                if ([PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
+                    u = [PFUser currentUser];
+                } else {
+                    u = [PFUser user];
+                }
                 
                 u.username = self.usernameField.text;
                 u.password = self.passField.text;

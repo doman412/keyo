@@ -10,6 +10,10 @@
 #import "Theme.h"
 #import "UIImage+Color.h"
 
+#import "Hub.h"
+#import "Song.h"
+#import "QueuedSong.h"
+
 @implementation QueueCell{
     NSInteger points;
 }
@@ -48,7 +52,7 @@
     self.pointsLabel.text = [NSString stringWithFormat:@"%.0f",step.value];
 //    [self.pointsLabel sizeToFit];
     
-    self.queuedSong[@"points"] = [NSNumber numberWithDouble:step.value];
+    self.queuedSong.score = [NSNumber numberWithDouble:step.value];
     [self.queuedSong saveInBackground];
     
 }

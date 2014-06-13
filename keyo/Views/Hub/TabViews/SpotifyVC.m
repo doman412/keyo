@@ -11,6 +11,9 @@
 #import "DejalActivityView.h"
 #import "UIImage+Size.h"
 
+#import "Hub.h"
+#import "Song.h"
+#import "QueuedSong.h"
 
 @interface SpotifyVC ()
 
@@ -147,7 +150,7 @@
             [findSong findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 if(!error){
                     if(objects.count>0){ // found the song
-                        PFObject *song = [objects objectAtIndex:0];
+                        Song *song = [objects objectAtIndex:0];
                         PFQuery *q = [PFQuery queryWithClassName:@"QueuedSong"];
                         [q whereKey:@"hub" equalTo:self.hub];
                         [q whereKey:@"song" equalTo:song];
@@ -180,13 +183,13 @@
                         NSDictionary *artistObj = [artists objectAtIndex:0];
                         
                         
-                        PFObject *song = [PFObject objectWithClassName:@"Song"];
-                        song[@"owner"] = [PFUser currentUser];
-                        song[@"type"] = @"spotify";
-                        song[@"title"] = [spotSong objectForKey:@"name"];
-                        song[@"artist"] = [artistObj objectForKey:@"name"];
-                        song[@"url"] = [spotSong objectForKey:@"href"];
-                        song[@"pId"] =  [[[spotSong objectForKey:@"href"] componentsSeparatedByString:@":"] objectAtIndex:2];
+                        Song *song = [Song object];
+                        song.owner = [PFUser currentUser];
+                        song.type = @"spotify";
+                        song.title = [spotSong objectForKey:@"name"];
+                        song.artist = [artistObj objectForKey:@"name"];
+//                        song[@"url"] = [spotSong objectForKey:@"href"];
+                        song.pId =  [[[spotSong objectForKey:@"href"] componentsSeparatedByString:@":"] objectAtIndex:2];
                         
                         [song saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                             if(succeeded){
@@ -271,14 +274,14 @@
 {
     if(buttonIndex==1){ // yes
         
-        PFObject *song = self.selectedSong;
-        PFObject *queuedSong = [PFObject objectWithClassName:@"QueuedSong"];
+        Song *song = self.selectedSong;
+        QueuedSong *queuedSong = [QueuedSong object];
         
-        queuedSong[@"song"] = song;
-        queuedSong[@"hub"] = self.hub;
-        queuedSong[@"addedBy"] = [PFUser currentUser];
-        queuedSong[@"points"] = @1;
-        queuedSong[@"active"] = @YES;
+        queuedSong.song = song;
+        queuedSong.hub = self.hub;
+        queuedSong.addedBy = [PFUser currentUser];
+        queuedSong.score = @1;
+        queuedSong.active = YES;
         
         [queuedSong saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(!succeeded){
